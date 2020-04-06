@@ -14,7 +14,7 @@
             sm="8"
             md="4"
           >
-            <v-card class="elevation-12">
+            <v-card>
               <v-toolbar
                 color="primary"
                 dark
@@ -30,6 +30,28 @@
               </v-card-text>
             </v-card>
           </v-col>
+
+          <v-col
+            cols="12"
+            sm="8"
+            md="4"
+          >
+            <v-card>
+              <v-toolbar
+                color="primary"
+                dark
+                flat
+              >
+                <v-toolbar-title>Signup form</v-toolbar-title>
+              </v-toolbar>
+
+              <v-card-text>
+                <user-signup-form
+                  @submit="signup"
+                />
+              </v-card-text>
+            </v-card>
+          </v-col>
         </v-row>
       </v-container>
     </v-content>
@@ -38,17 +60,22 @@
 
 <script>
 import UserLoginForm from '@/components/UserLoginForm'
+import UserSignupForm from '@/components/UserSignupForm'
 
 const methods = {
   login (formData) {
     console.log('Login:', formData)
+  },
+  signup (formData) {
+    console.log('Signup:', formData)
   }
 }
 
 export default {
   name: 'AuthPage',
   components: {
-    UserLoginForm
+    UserLoginForm,
+    UserSignupForm
   },
   methods
 }
