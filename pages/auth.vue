@@ -29,6 +29,10 @@
                   </v-tab-item>
                 </v-tabs-items>
               </v-card-text>
+
+              <v-overlay :value="isLoading" absolute>
+                <v-progress-circular indeterminate />
+              </v-overlay>
             </v-card>
           </v-col>
         </v-row>
@@ -42,15 +46,25 @@ import UserLoginForm from '@/components/UserLoginForm'
 import UserSignupForm from '@/components/UserSignupForm'
 
 const data = () => ({
-  tab: null
+  tab: null,
+  isLoading: false
 })
 
 const methods = {
+  load () {
+    this.isLoading = true
+
+    setTimeout(() => { this.isLoading = false }, 2000)
+  },
   login (formData) {
     console.log('Login:', formData)
+
+    this.load()
   },
   signup (formData) {
     console.log('Signup:', formData)
+
+    this.load()
   }
 }
 
