@@ -31,10 +31,6 @@ test('mutations.SET', (t) => {
   t.notThrows(callWith(statuses.PENDING))
   t.is(state.status, statuses.PENDING)
 
-  t.notThrows(callWith(statuses.FAILED, { message: 'Unauthorized' }))
-  t.is(state.status, statuses.FAILED)
-  t.is(state.data.message, 'Unauthorized')
-
   t.notThrows(callWith(statuses.OK, { token: 'TOKEN' }))
   t.is(state.status, statuses.OK)
 
@@ -76,14 +72,14 @@ test('actions.login (failed)', async (t) => {
 
   //
 
-  await actions.login(t.context, formData)
+  await t.throwsAsync(actions.login(t.context, formData))
 
   //
 
   t.is(commit.callCount, 2)
 
   t.is(commit.firstCall.args[1].status, statuses.PENDING)
-  t.is(commit.secondCall.args[1].status, statuses.FAILED)
+  t.is(commit.secondCall.args[1].status, statuses.NONE)
 })
 
 test('actions.signup (ok)', async (t) => {
@@ -116,14 +112,14 @@ test('actions.signup (failed)', async (t) => {
 
   //
 
-  await actions.signup(t.context, formData)
+  await t.throwsAsync(actions.signup(t.context, formData))
 
   //
 
   t.is(commit.callCount, 2)
 
   t.is(commit.firstCall.args[1].status, 'PENDING')
-  t.is(commit.secondCall.args[1].status, 'FAILED')
+  t.is(commit.secondCall.args[1].status, 'NONE')
 
   t.true(dispatch.notCalled)
 })

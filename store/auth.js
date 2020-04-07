@@ -5,7 +5,6 @@ import { createUser, acquireToken } from '@/api'
 export const statuses = {
   NONE: 'NONE',
   PENDING: 'PENDING',
-  FAILED: 'FAILED', // with error
   OK: 'OK' // with token
 }
 
@@ -26,14 +25,19 @@ export const mutations = {
     }
 
     state.status = status
-    state.data = data
+    state.token = status === statuses.OK
+      ? data.token
+      : null
   }
 }
 
 export const actions = {
   login ({ commit }, formData) {
     const pass = res => commit('SET', payloadFor(statuses.OK, res))
-    const fail = err => commit('SET', payloadFor(statuses.FAILED, err))
+    const fail = (err) => {
+      commit('SET', payloadFor(statuses.NONE))
+      return Promise.reject(err)
+    }
 
     // loading
     commit('SET', payloadFor(statuses.PENDING))
@@ -45,7 +49,10 @@ export const actions = {
   signup ({ commit, dispatch }, formData) {
     // automatically try to login
     const pass = res => dispatch('login', formData)
-    const fail = err => commit('SET', payloadFor(statuses.FAILED, err))
+    const fail = (err) => {
+      commit('SET', payloadFor(statuses.NONE))
+      return Promise.reject(err)
+    }
 
     // loading
     commit('SET', payloadFor(statuses.PENDING))

@@ -7,25 +7,35 @@
             <v-tabs
               v-model="tab"
               :grow="true"
+              @change="reset"
             >
               <v-tab> Login </v-tab>
               <v-tab> Signup </v-tab>
             </v-tabs>
 
             <v-card>
+              <v-card-subtitle v-if="hasVisibleError">
+                <v-alert
+                  v-model="hasVisibleError"
+                  type="error"
+                  dismissible
+                >
+                  {{ errorMessage }}
+                </v-alert>
+              </v-card-subtitle>
               <v-card-text>
                 <v-tabs-items v-model="tab">
                   <v-tab-item
                     :transition="false"
                     :reverse-transition="false"
                   >
-                    <user-login-form @submit="login"/>
+                    <user-login-form @submit="submitLogin" />
                   </v-tab-item>
                   <v-tab-item
                     :transition="false"
                     :reverse-transition="false"
                   >
-                    <user-signup-form @submit="signup" />
+                    <user-signup-form @submit="submitSignup" />
                   </v-tab-item>
                 </v-tabs-items>
               </v-card-text>
@@ -42,31 +52,63 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
+
 import UserLoginForm from '@/components/UserLoginForm'
 import UserSignupForm from '@/components/UserSignupForm'
 
+import { statuses } from '@/store/auth'
+
+//
+
 const data = () => ({
   tab: null,
-  isLoading: false
+  hasVisibleError: false,
+  errorMessage: null
 })
 
-const methods = {
-  load () {
-    this.isLoading = true
-
-    setTimeout(() => { this.isLoading = false }, 2000)
+const computed = {
+  hasStatus () {
+    return status => this.status === status
   },
-  login (formData) {
-    console.log('Login:', formData)
-
-    this.load()
+  isLoading () {
+    return this.hasStatus(statuses.PENDING)
   },
-  signup (formData) {
-    console.log('Signup:', formData)
+  ...mapState('auth', ['status', 'token'])
+}
 
-    this.load()
+const watch = {
+  status () {
+    this.reset()
   }
 }
+
+const methods = {
+  displayError (err) {
+    this.errorMessage = err.message
+    this.hasVisibleError = true
+  },
+  hideError () {
+    this.errorMessage = null
+    this.hasVisibleError = false
+  },
+  submitLogin (formData) {
+    this
+      .login(formData)
+      .catch(err => this.displayError(err))
+  },
+  submitSignup (formData) {
+    this
+      .signup(formData)
+      .catch(err => this.displayError(err))
+  },
+  reset () {
+    this.hideError()
+  },
+  ...mapActions('auth', ['login', 'signup'])
+}
+
+//
 
 export default {
   name: 'AuthPage',
@@ -75,6 +117,8 @@ export default {
     UserSignupForm
   },
   data,
+  computed,
+  watch,
   methods
 }
 </script>
