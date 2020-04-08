@@ -1,10 +1,12 @@
 import delay from 'delay'
 import createError from 'http-errors'
+import jwt from 'jsonwebtoken'
 
 import { users } from './db'
 
 // settings
 
+const JWT_SECRET = 'SECRET'
 const DELAY_TIME = 1000
 
 // patch browser (for firefox , etc)
@@ -34,13 +36,16 @@ const addUser = (formData) => {
   users.push({ name, email, password })
 }
 
+const tokenFor = ({ name, email }) =>
+  jwt.sign({ name, email }, JWT_SECRET)
+
 // actions
 
 export function acquireToken ({ email, password }) {
   const user = getUserByEmail(email)
 
   return user && user.password === password
-    ? resolveD({ token: 'TOKEN' })
+    ? resolveD({ token: tokenFor(user) })
     : rejectD(createError(401))
 }
 
