@@ -77,9 +77,7 @@ module.exports = {
     extend (config, ctx) {
     }
   },
-  /*
-  **
-  */
+  srcDir: 'client/',
   env: {
     rootPath: '/'
   },
