@@ -74,6 +74,10 @@ const computed = {
   isLoading () {
     return this.hasStatus(statuses.PENDING)
   },
+  redirectUrl () {
+    const { origin } = this.$route.query
+    return origin || '/'
+  },
   ...mapState('auth', ['status', 'token'])
 }
 
@@ -96,14 +100,19 @@ const methods = {
     this
       .login(formData)
       .catch(err => this.displayError(err))
+      .then(() => this.callback())
   },
   submitSignup (formData) {
     this
       .signup(formData)
       .catch(err => this.displayError(err))
+      .then(() => this.callback())
   },
   reset () {
     this.hideError()
+  },
+  callback () {
+    this.$router.push(this.redirectUrl)
   },
   ...mapActions('auth', ['login', 'signup'])
 }
