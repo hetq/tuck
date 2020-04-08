@@ -41,6 +41,7 @@
       <v-spacer />
       <v-btn
         type="submit"
+        color="primary"
         :disabled="!isValid || isLoading"
         :loading="isLoading"
       >

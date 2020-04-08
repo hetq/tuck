@@ -1,24 +1,24 @@
 <template>
   <v-col cols="12" sm="8" md="4">
-    <v-tabs
-      v-model="tab"
-      :grow="true"
-      @change="reset"
+    <v-snackbar
+      v-model="hasVisibleError"
+      color="error"
     >
-      <v-tab> Login </v-tab>
-      <v-tab> Signup </v-tab>
-    </v-tabs>
+      <strong> {{ errorMessage }} </strong>
+      <v-btn icon color="white" @click="hideError">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+    </v-snackbar>
 
     <v-card :loading="isLoading">
-      <v-card-subtitle v-if="hasVisibleError">
-        <v-alert
-          v-model="hasVisibleError"
-          type="error"
-          dismissible
-        >
-          {{ errorMessage }}
-        </v-alert>
-      </v-card-subtitle>
+      <v-tabs
+        v-model="tab"
+        :grow="true"
+        @change="reset"
+      >
+        <v-tab> Login </v-tab>
+        <v-tab> Signup </v-tab>
+      </v-tabs>
 
       <v-card-text>
         <v-tabs-items v-model="tab">
@@ -46,5 +46,11 @@
     </v-card>
   </v-col>
 </template>
+
+<style scoped>
+.padded {
+  padding: 20px;
+}
+</style>
 
 <script src="./main.js"></script>
