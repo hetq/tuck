@@ -11,6 +11,15 @@ const rules = {
   ]
 }
 
+//
+
+const props = {
+  isLoading: {
+    type: Boolean,
+    default: false
+  }
+}
+
 const data = () => ({
   isValid: false,
   formData: {
@@ -36,5 +45,6 @@ const methods = {
 export default {
   name: 'UserSignupForm',
   data,
+  props,
   methods
 }

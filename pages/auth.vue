@@ -13,7 +13,7 @@
               <v-tab> Signup </v-tab>
             </v-tabs>
 
-            <v-card>
+            <v-card :loading="isLoading">
               <v-card-subtitle v-if="hasVisibleError">
                 <v-alert
                   v-model="hasVisibleError"
@@ -29,20 +29,22 @@
                     :transition="false"
                     :reverse-transition="false"
                   >
-                    <user-login-form @submit="submitLogin" />
+                    <user-login-form
+                      :is-loading="isLoading"
+                      @submit="submitLogin"
+                    />
                   </v-tab-item>
                   <v-tab-item
                     :transition="false"
                     :reverse-transition="false"
                   >
-                    <user-signup-form @submit="submitSignup" />
+                    <user-signup-form
+                      :is-loading="isLoading"
+                      @submit="submitSignup"
+                    />
                   </v-tab-item>
                 </v-tabs-items>
               </v-card-text>
-
-              <v-overlay :value="isLoading" absolute>
-                <v-progress-circular indeterminate />
-              </v-overlay>
             </v-card>
           </v-col>
         </v-row>

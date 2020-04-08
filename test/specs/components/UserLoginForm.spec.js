@@ -55,8 +55,8 @@ test('submit on valid input', (t) => {
     .setValue(FORM_VALID.password)
 
   wrapper
-    .find('button')
-    .trigger('click')
+    .find('form')
+    .trigger('submit')
 
   t.true(listeners.submit.calledOnceWith(FORM_VALID))
 })

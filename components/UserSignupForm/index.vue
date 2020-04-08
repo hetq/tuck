@@ -1,5 +1,9 @@
 <template>
-  <v-form ref="form" v-model="isValid">
+  <v-form
+    ref="form"
+    v-model="isValid"
+    @submit.prevent="submit"
+  >
     <v-text-field
       ref="name-input"
       v-model="formData.name"
@@ -36,11 +40,9 @@
     <v-layout justify-space-between>
       <v-spacer />
       <v-btn
-        :class="{
-          'blue darken-4 white--text' : isValid,
-          disabled: !isValid
-        }"
-        @click="submit"
+        type="submit"
+        :disabled="!isValid || isLoading"
+        :loading="isLoading"
       >
         Signup
       </v-btn>
