@@ -1,5 +1,3 @@
-const colors = require('vuetify/es5/util/colors').default
-
 module.exports = {
   mode: 'spa',
   /*
@@ -51,18 +49,18 @@ module.exports = {
   ** https://github.com/nuxt-community/vuetify-module
   */
   vuetify: {
-    customVariables: ['~/assets/variables.scss'],
+    customVariables: ['~/client/assets/variables.scss'],
     theme: {
-      dark: true,
+      dark: false,
       themes: {
-        dark: {
-          primary: colors.blue.darken2,
-          accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
-          info: colors.teal.lighten1,
-          warning: colors.amber.base,
-          error: colors.deepOrange.accent4,
-          success: colors.green.accent3
+        light: {
+          primary: '#5e81ac',
+          accent: '#88c0d0',
+          secondary: '#81a1c1',
+          info: '#81a1c1',
+          warning: '#d08770',
+          error: '#bf616a',
+          success: '#a3be8c'
         }
       }
     }
@@ -77,9 +75,7 @@ module.exports = {
     extend (config, ctx) {
     }
   },
-  /*
-  **
-  */
+  srcDir: 'client/',
   env: {
     rootPath: '/'
   },
