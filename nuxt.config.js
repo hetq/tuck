@@ -80,6 +80,12 @@ module.exports = {
   /*
   **
   */
+  env: {
+    rootPath: '/'
+  },
+  /*
+  **
+  */
   router: {
     middleware: ['auth']
   }

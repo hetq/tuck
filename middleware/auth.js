@@ -1,17 +1,19 @@
+const paramsFor = (route) => {
+  const origin = route.fullPath
+
+  return origin === process.env.rootPath
+    ? {}
+    : { query: { origin } }
+}
+
 export default function ({ store, redirect, route }) {
   const { isAuthenticated } = store.getters
   const isTargetAuth = route.name === 'auth'
 
-  const origin = route.fullPath
-
   // allow only /auth for user unknown
-  if (!isAuthenticated) {
-    return isTargetAuth
-      ? Promise.resolve()
-      : redirect({ name: 'auth', query: { origin } })
-  } else {
-    return isTargetAuth
-      ? redirect('/')
-      : Promise.resolve()
+  if (!isAuthenticated && !isTargetAuth) {
+    return redirect({ name: 'auth', ...paramsFor(route) })
   }
+
+  return Promise.resolve()
 }
