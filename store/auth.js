@@ -14,9 +14,13 @@ const payloadFor = (status, data = null) => ({ status, data })
 
 // store parts
 
-export const state = () => ({
-  status: statuses.NONE
-})
+export const state = () => {
+  const token = localStorage.getItem('token')
+
+  return token
+    ? { status: statuses.OK, token }
+    : { status: statuses.NONE }
+}
 
 export const mutations = {
   SET (state, { status, data }) {
@@ -33,7 +37,11 @@ export const mutations = {
 
 export const actions = {
   login ({ commit }, formData) {
-    const pass = res => commit('SET', payloadFor(statuses.OK, res))
+    const pass = (res) => {
+      commit('SET', payloadFor(statuses.OK, res))
+      //
+      localStorage.setItem('token', res.token)
+    }
     const fail = (err) => {
       commit('SET', payloadFor(statuses.NONE))
       return Promise.reject(err)
@@ -61,7 +69,8 @@ export const actions = {
       .then(pass)
       .catch(fail)
   },
-  logout () {
-    throw new Error('Not Implemented')
+  logout ({ commit }) {
+    commit('SET', payloadFor(statuses.NONE))
+    localStorage.removeItem('token')
   }
 }
