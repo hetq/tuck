@@ -76,5 +76,17 @@ module.exports = {
     */
     extend (config, ctx) {
     }
+  },
+  /*
+  **
+  */
+  env: {
+    rootPath: '/'
+  },
+  /*
+  **
+  */
+  router: {
+    middleware: ['auth']
   }
 }
