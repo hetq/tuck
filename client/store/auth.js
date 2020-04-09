@@ -1,4 +1,4 @@
-import { createUser, acquireToken } from '@/api'
+import { User as api } from '@/api'
 
 // status variants
 
@@ -50,7 +50,8 @@ export const actions = {
     // loading
     commit('SET', payloadFor(statuses.PENDING))
 
-    return acquireToken(formData)
+    return api
+      .acquireToken(formData)
       .then(pass)
       .catch(fail)
   },
@@ -65,7 +66,8 @@ export const actions = {
     // loading
     commit('SET', payloadFor(statuses.PENDING))
 
-    return createUser(formData)
+    return api
+      .createUser(formData)
       .then(pass)
       .catch(fail)
   },

@@ -29,7 +29,11 @@
     "http-errors": "^1.7.3",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.6.2",
-    "nuxt": "^2.0.0"
+    "nuxt": "^2.0.0",
+    "pouchdb": "^7.2.1",
+    "pouchdb-adapter-localstorage": "^7.2.1",
+    "pouchdb-adapter-memory": "^7.2.1",
+    "pouchdb-find": "^7.2.1"
   },
   "devDependencies": {
     "@ava/babel": "^1.0.0",
