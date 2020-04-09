@@ -72,5 +72,7 @@ export const actions = {
   logout ({ commit }) {
     commit('SET', payloadFor(statuses.NONE))
     localStorage.removeItem('token')
+
+    return Promise.resolve()
   }
 }
