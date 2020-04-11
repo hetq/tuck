@@ -1,11 +1,13 @@
+import WeatherChart from '@/components/WeatherChart'
+import WeatherSelectorForm from '@/components/WeatherSelectorForm'
+
 // assets
 
 const stats = [
   {
     timestamp: 1485799200,
     temperature: 261.45
-  },
-  {
+  }, {
     timestamp: 1485810000,
     temperature: 261.41
   },
@@ -39,50 +41,27 @@ const stats = [
   }
 ]
 
-// helpers
-
-const prop = key => obj => obj[key]
-
-const formatTimestamp = (ts) => {
-  const matches = new Date(ts * 1000)
-    .toISOString()
-    .match(/T([0-9:]{5})./)
-
-  return matches[1]
-}
-
 //
 
-const computed = {
-  statPoints () {
-    return this.stats
-      .map(prop('temperature'))
-  },
-  statLabels () {
-    return this.stats
-      .map(prop('timestamp'))
-      .map(formatTimestamp)
+const data = () => ({
+  form: undefined,
+  stats
+})
+
+const watch = {
+  form (data) {
+    console.log('Selector updated:', data)
   }
 }
-
-const data = () => ({
-  form: {
-    date: new Date().toISOString().substr(0, 10),
-    city: null
-  },
-  stats,
-  cities: [
-    'Moscow',
-    'New York',
-    'Sydney'
-  ],
-  modal: false
-})
 
 // expose component
 
 export default {
   name: 'WeatherCard',
   data,
-  computed
+  watch,
+  components: {
+    WeatherChart,
+    WeatherSelectorForm
+  }
 }
