@@ -13,20 +13,24 @@ const formatTimestamp = (ts) => {
 //
 
 const props = {
-  value: {
+  isLoading: {
+    type: Boolean,
+    default: false
+  },
+  timeSeries: {
     type: Array,
     default: () => []
   }
 }
 
 const computed = {
-  statPoints () {
-    return this.value
-      .map(prop('temperature'))
+  value () {
+    return this.timeSeries
+      .map(prop('value'))
   },
-  statLabels () {
-    return this.value
-      .map(prop('timestamp'))
+  labels () {
+    return this.timeSeries
+      .map(prop('time'))
       .map(formatTimestamp)
   }
 }

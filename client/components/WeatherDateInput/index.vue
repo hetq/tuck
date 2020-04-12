@@ -9,7 +9,6 @@
       <v-text-field
         :value="value"
         prepend-icon="mdi-calendar"
-        readonly
         v-on="on"
       />
     </template>
