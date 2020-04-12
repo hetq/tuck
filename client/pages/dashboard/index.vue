@@ -5,7 +5,7 @@
       <weather-city-input v-model="form.city" />
     </v-toolbar>
 
-    <v-row>
+    <v-row v-if="timeSeries">
       <v-col cols="12" md="6">
         <v-card outlined>
           <v-toolbar flat dense>

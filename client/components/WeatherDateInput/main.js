@@ -1,8 +1,5 @@
 const props = {
-  value: {
-    type: String,
-    default: () => new Date().toISOString().substr(0, 10)
-  }
+  value: String
 }
 
 const data = () => ({
