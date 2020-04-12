@@ -1,5 +1,6 @@
 require('browser-env')()
 require('mock-local-storage')
+
 const hooks = require('require-extension-hooks')
 const Vue = require('vue')
 const Vuetify = require('vuetify')

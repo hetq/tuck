@@ -77,7 +77,8 @@ module.exports = {
   },
   srcDir: 'client/',
   env: {
-    rootPath: '/'
+    rootPath: '/',
+    OPENWEATHERMAP_API_KEY: process.env.OPENWEATHERMAP_API_KEY
   },
   /*
   **
