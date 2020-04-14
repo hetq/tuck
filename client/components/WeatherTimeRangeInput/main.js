@@ -11,7 +11,7 @@ const props = {
   },
   max: {
     type: Date,
-    default: () => D.addDays(D.startOfToday(), 5)
+    default: D.endOfToday
   }
 }
 

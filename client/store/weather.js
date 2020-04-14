@@ -1,5 +1,4 @@
 import * as R from 'ramda'
-import * as D from 'date-fns'
 
 import RemoteData from '@/types/RemoteData'
 import { forecast } from '@/api/Weather'
@@ -20,16 +19,6 @@ export const mutations = {
 }
 
 export const getters = {
-  forecastBy (state, getters) {
-    const isWithin = timeRange => ({ time }) =>
-      D.isWithinInterval(time, timeRange)
-
-    return ({ city, timeRange }) => {
-      return getters
-        .forecastByCity(city)
-        .map(R.filter(isWithin(timeRange)))
-    }
-  },
   forecastByCity (state) {
     const propSafe = R.propOr(RemoteData.NotAsked)
     return city => propSafe(city, state.forecastMap)

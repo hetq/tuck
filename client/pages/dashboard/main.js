@@ -23,8 +23,25 @@ const data = () => ({
 })
 
 const computed = {
-  forecastData () {
-    return this.forecastBy(this.form)
+  data () {
+    return this.forecastByCity(this.form.city)
+  },
+  timeScope () {
+    const toScope = R.compose(
+      R.converge(
+        (min, max) => ({ min, max }),
+        [R.head, R.last]
+      ),
+      R.pluck('time')
+    )
+
+    return this.data.map(toScope)
+  },
+  focusData () {
+    const isWithin = ({ time }) =>
+      D.isWithinInterval(time, this.form.timeRange)
+
+    return this.data.map(R.filter(isWithin))
   },
   seriesFor () {
     return (key) => {
@@ -32,11 +49,10 @@ const computed = {
         return R.path(['data', key], x)
       }
 
-      return this.forecastData
-        .map(R.map(valueOf))
+      return this.data.map(R.map(valueOf))
     }
   },
-  ...mapGetters('weather', ['forecastBy'])
+  ...mapGetters('weather', ['forecastByCity'])
 }
 
 const methods = {
