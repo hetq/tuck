@@ -5,10 +5,7 @@ const options = [
 ]
 
 const props = {
-  value: {
-    type: String,
-    default: options[0]
-  }
+  value: String
 }
 
 const data = () => ({

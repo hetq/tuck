@@ -1,107 +1,81 @@
+import { mapGetters, mapActions } from 'vuex'
+
+import * as R from 'ramda'
+import * as D from 'date-fns'
+
+import RemoteData from '@/types/RemoteData'
+
 import WeatherDateInput from '@/components/WeatherDateInput'
 import WeatherCityInput from '@/components/WeatherCityInput'
 import WeatherChart from '@/components/WeatherChart'
 
 // assets
 
-const timeSeries = [
-  {
-    time: 1485799200,
-    data: {
-      temperature: 261.45
-    }
-  }, {
-    time: 1485810000,
-    data: {
-      temperature: 261.41
-    }
-  },
-  {
-    time: 1485820800,
-    data: {
-      temperature: 261.76
-    }
-  },
-  {
-    time: 1485831600,
-    data: {
-      temperature: 261.46
-    }
-  },
-  {
-    time: 1485842400,
-    data: {
-      temperature: 260.981
-    }
-  },
-  {
-    time: 1485853200,
-    data: {
-      temperature: 262.308
-    }
-  },
-  {
-    time: 1485864000,
-    data: {
-      temperature: 263.76
-    }
-  },
-  {
-    time: 1485874800,
-    data: {
-      temperature: 264.182
-    }
-  },
-  {
-    time: 1485885600,
-    data: {
-      temperature: 264.67
-    }
-  }
-]
-
-//
-
 const data = () => ({
   form: {
-    date: undefined,
-    city: undefined
-  },
-  timeSeries,
-  isLoading: false
+    date: D.formatISO(new Date(), { representation: 'date' }),
+    city: 'Moscow'
+  }
 })
 
 const computed = {
-  statsFor () {
-    const by = key =>
-      ({ time, data }) => ({ time, value: data[key] })
+  timeRange () {
+    const date = D.parseISO(this.form.date)
 
-    return key => this.timeSeries.map(by(key))
-  }
+    const start = D.startOfDay(date)
+    const end = D.endOfDay(date)
+
+    return { start, end }
+  },
+  forecastData () {
+    const { city } = this.form
+    const { timeRange } = this
+
+    return this.forecastBy({ city, timeRange })
+  },
+  timeSeriesFor () {
+    return (key) => {
+      const { forecastData } = this
+
+      const dataPointFrom = R.applySpec({
+        time: ({ time }) => time,
+        value: ({ data }) => R.prop(key, data)
+      })
+
+      if (RemoteData.Success.is(forecastData)) {
+        return forecastData.value.map(dataPointFrom)
+      } else {
+        return undefined
+      }
+    }
+  },
+  isLoading () {
+    return RemoteData.Loading.is(this.forecastData)
+  },
+  ...mapGetters('weather', ['forecastBy'])
 }
 
-const watch = {
-  form: {
-    handler () {
-      console.log('Selector updated:', data)
-      this.isLoading = true
+const methods = {
+  update (city) {
+    this.ensureForecastOf({ city })
+  },
+  ...mapActions('weather', ['ensureForecastOf'])
+}
 
-      setTimeout(() => {
-        this.isLoading = false
-      }, 1000)
-    },
-    deep: true
-  }
+function mounted () {
+  const { city } = this.form
+  this.ensureForecastOf({ city })
 }
 
 export default {
   name: 'DashboardPage',
   data,
-  watch,
   computed,
+  methods,
   components: {
     WeatherChart,
     WeatherDateInput,
     WeatherCityInput
-  }
+  },
+  mounted
 }
