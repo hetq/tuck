@@ -14,12 +14,6 @@ const client = ky.extend({ prefixUrl })
 
 //
 
-const delayed = (data) => {
-  const c = res => setTimeout(() => res(data), 2000)
-
-  return new Promise(c)
-}
-
 const dataPointFrom = ({ dt, main }) => {
   const time = new Date(dt * 1000)
 
@@ -41,7 +35,6 @@ function forecast ({ city }) {
     .get(url)
     .json()
     .then(recover)
-    .then(delayed)
 }
 
 export { forecast }

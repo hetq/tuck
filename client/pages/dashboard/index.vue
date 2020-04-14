@@ -7,7 +7,7 @@
 
     <v-row>
       <v-col cols="12" sm="6" md="5" lg="4">
-        <v-card outlined :loading="isLoading">
+        <v-card outlined :loading="forecastData.isLoading()">
           <v-toolbar flat dense>
             <v-toolbar-title>
               Temperature
@@ -19,16 +19,13 @@
           <v-divider />
 
           <v-card-text>
-            <weather-chart
-              :is-loading="isLoading"
-              :time-series="timeSeriesFor('temperature')"
-            />
+            <weather-chart :data="seriesFor('temperature')" />
           </v-card-text>
         </v-card>
       </v-col>
 
       <v-col cols="12" sm="6" md="7" lg="8">
-        <v-card outlined :loading="isLoading">
+        <v-card outlined :loading="forecastData.isLoading()">
           <v-toolbar flat dense>
             <v-toolbar-title>
               Timeline
@@ -40,10 +37,7 @@
           <v-divider />
 
           <v-card-text>
-            <weather-timeline
-              :is-loading="isLoading"
-              :time-series="timeSeries"
-            />
+            <weather-timeline :data="forecastData" />
           </v-card-text>
         </v-card>
       </v-col>

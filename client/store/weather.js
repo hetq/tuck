@@ -21,9 +21,8 @@ export const mutations = {
 
 export const getters = {
   forecastBy (state, getters) {
-    const isWithin = timeRange => ({ time }) => {
-      return D.isWithinInterval(time, timeRange)
-    }
+    const isWithin = timeRange => ({ time }) =>
+      D.isWithinInterval(time, timeRange)
 
     return ({ city, timeRange }) => {
       return getters

@@ -23,6 +23,24 @@ RemoteData.prototype.map = function (transform) {
 
 //
 
+RemoteData.prototype.isNotAsked = function () {
+  return NotAsked.is(this)
+}
+
+RemoteData.prototype.isLoading = function () {
+  return Loading.is(this)
+}
+
+RemoteData.prototype.isSuccess = function () {
+  return Success.is(this)
+}
+
+RemoteData.prototype.isFailure = function () {
+  return Failure.is(this)
+}
+
+//
+
 export default RemoteData
 
 export { NotAsked, Loading, Success, Failure }

@@ -3,7 +3,7 @@ import { mapGetters, mapActions } from 'vuex'
 import * as R from 'ramda'
 import * as D from 'date-fns'
 
-import RemoteData from '@/types/RemoteData'
+// import RemoteData from '@/types/RemoteData'
 
 import WeatherTimeRangeInput from '@/components/WeatherTimeRangeInput'
 import WeatherCityInput from '@/components/WeatherCityInput'
@@ -26,33 +26,15 @@ const computed = {
   forecastData () {
     return this.forecastBy(this.form)
   },
-  timeSeries () {
-    const { forecastData } = this
-
-    if (RemoteData.Success.is(forecastData)) {
-      return forecastData.value
-    } else {
-      return undefined
-    }
-  },
-  timeSeriesFor () {
+  seriesFor () {
     return (key) => {
-      const { forecastData } = this
-
-      const dataPointFrom = R.applySpec({
-        time: ({ time }) => time,
-        value: ({ data }) => R.prop(key, data)
-      })
-
-      if (RemoteData.Success.is(forecastData)) {
-        return forecastData.value.map(dataPointFrom)
-      } else {
-        return undefined
+      const valueOf = (x) => {
+        return R.path(['data', key], x)
       }
+
+      return this.forecastData
+        .map(R.map(valueOf))
     }
-  },
-  isLoading () {
-    return RemoteData.Loading.is(this.forecastData)
   },
   ...mapGetters('weather', ['forecastBy'])
 }

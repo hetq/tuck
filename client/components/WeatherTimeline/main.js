@@ -1,20 +1,31 @@
-// helpers
+import * as D from 'date-fns'
+
+import RemoteData from '@/types/RemoteData'
+
+//
+
+const DATE_FORMAT = 'hh:mm, dd MMM'
 
 //
 
 const props = {
-  isLoading: {
-    type: Boolean,
-    default: false
-  },
-  timeSeries: {
-    type: Array,
-    default: () => []
+  data: {
+    type: Object,
+    default: () => RemoteData.Loading
   }
 }
 
 const computed = {
+  timeSeries () {
+    const { data } = this
 
+    return data.isSuccess()
+      ? data.value
+      : null
+  },
+  labelOf () {
+    return ({ time }) => D.format(time, DATE_FORMAT)
+  }
 }
 
 export default {

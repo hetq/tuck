@@ -1,37 +1,24 @@
-// helpers
+import * as R from 'ramda'
 
-const prop = key => obj => obj[key]
-
-const formatTimestamp = (ts) => {
-  const matches = new Date(ts * 1000)
-    .toISOString()
-    .match(/T([0-9:]{5})./)
-
-  return matches[1]
-}
+import RemoteData from '@/types/RemoteData'
 
 //
 
 const props = {
-  isLoading: {
-    type: Boolean,
-    default: false
-  },
-  timeSeries: {
-    type: Array,
-    default: () => []
+  data: {
+    type: Object,
+    default: () => RemoteData.NotAsked
   }
 }
 
 const computed = {
   value () {
-    return this.timeSeries
-      .map(prop('value'))
-  },
-  labels () {
-    return this.timeSeries
-      .map(prop('time'))
-      .map(formatTimestamp)
+    const { data } = this
+
+    return data.isSuccess() && !R.isEmpty(data.value)
+      // ensure correct output type
+      ? R.map(Number, data.value || [])
+      : null
   }
 }
 
