@@ -9,9 +9,9 @@
 
         <v-spacer />
 
-        <weather-city-input
-          v-model="form.city"
-          :options="locationOptions"
+        <location-input
+          v-model="form.location"
+          :options="cityNames"
           @input="update"
         />
       </v-toolbar>

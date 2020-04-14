@@ -27,8 +27,8 @@ const parseItem = ({ dt, main }) => {
 
 //
 
-function forecast ({ city }) {
-  const url = `forecast?q=${city}&appid=${appid}`
+function forecast (location) {
+  const url = `forecast?q=${location}&appid=${appid}`
 
   const recover = ({ list }) => list.map(parseItem)
 

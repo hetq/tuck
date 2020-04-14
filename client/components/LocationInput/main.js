@@ -11,7 +11,7 @@ const methods = {
 }
 
 export default {
-  name: 'WeatherCityInput',
+  name: 'LocationInput',
   props,
   methods
 }
