@@ -8,6 +8,7 @@ import RemoteData from '@/types/RemoteData'
 import WeatherDateInput from '@/components/WeatherDateInput'
 import WeatherCityInput from '@/components/WeatherCityInput'
 import WeatherChart from '@/components/WeatherChart'
+import WeatherTimeline from '@/components/WeatherTimeline'
 
 // assets
 
@@ -32,6 +33,15 @@ const computed = {
     const { timeRange } = this
 
     return this.forecastBy({ city, timeRange })
+  },
+  timeSeries () {
+    const { forecastData } = this
+
+    if (RemoteData.Success.is(forecastData)) {
+      return forecastData.value
+    } else {
+      return undefined
+    }
   },
   timeSeriesFor () {
     return (key) => {
@@ -75,7 +85,8 @@ export default {
   components: {
     WeatherChart,
     WeatherDateInput,
-    WeatherCityInput
+    WeatherCityInput,
+    WeatherTimeline
   },
   mounted
 }

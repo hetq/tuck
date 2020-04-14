@@ -6,8 +6,8 @@
     </v-toolbar>
 
     <v-row>
-      <v-col cols="12" md="6">
-        <v-card outlined loading="isLoading">
+      <v-col cols="12" sm="6" md="5" lg="4">
+        <v-card outlined :loading="isLoading">
           <v-toolbar flat dense>
             <v-toolbar-title>
               Temperature
@@ -27,8 +27,25 @@
         </v-card>
       </v-col>
 
-      <v-col cols="12" md="6">
-        <cite> Under construction </cite>
+      <v-col cols="12" sm="6" md="7" lg="8">
+        <v-card outlined :loading="isLoading">
+          <v-toolbar flat dense>
+            <v-toolbar-title>
+              Timeline
+            </v-toolbar-title>
+            <v-spacer />
+            <v-icon>mdi-book</v-icon>
+          </v-toolbar>
+
+          <v-divider />
+
+          <v-card-text>
+            <weather-timeline
+              :is-loading="isLoading"
+              :time-series="timeSeries"
+            />
+          </v-card-text>
+        </v-card>
       </v-col>
     </v-row>
   </v-content>
