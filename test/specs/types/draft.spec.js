@@ -2,7 +2,7 @@ import test from 'ava'
 
 import Temperature from '@/types/Temperature'
 import Time from '@/types/Time'
-// import RemoteData from '@/types/RemoteData'
+import RemoteData from '@/types/RemoteData'
 
 //
 
@@ -22,36 +22,59 @@ test('Temperature', (t) => {
 })
 
 test('Time', (t) => {
-  const { Timestamp: time } = Time
+  const { Point, Range } = Time
 
   //
 
   t.deepEqual(
-    time.fromSeconds(1),
-    time(1000)
+    Point.fromSeconds(1),
+    Point(1000)
   )
 
   // equals
 
   t.true(
-    time(10).equals(time(10))
+    Point(10).equals(Point(10))
   )
 
-  // gt
+  //
 
-  t.true(
-    time(10).gt(time(8))
-  )
+  const a = Point(2)
+  const b = Point(4)
+  const c = Point(6)
 
-  t.false(
-    time(10).gt(time(10))
-  )
+  const ab = Range(a, b)
+  const ac = Range(a, c)
 
-  // gte
+  t.true(a.isWithin(ac), 'inclusive start')
+  t.true(b.isWithin(ac))
+  t.true(c.isWithin(ac), 'inclusive end')
 
-  t.true(
-    time(10).gte(time(10))
-  )
+  t.false(c.isWithin(ab))
 })
 
-test.todo('RemoteData')
+test('RemoteData', (t) => {
+  const { NotAsked, Loading, Success, Failure } = RemoteData
+
+  const fn = () => 'mapped'
+
+  t.deepEqual(
+    NotAsked.map(fn),
+    NotAsked
+  )
+
+  t.deepEqual(
+    Loading.map(fn),
+    Loading
+  )
+
+  t.deepEqual(
+    Success('initial').map(fn),
+    Success('mapped')
+  )
+
+  t.deepEqual(
+    Failure(new Error('initial')).map(fn),
+    Failure(new Error('initial'))
+  )
+})

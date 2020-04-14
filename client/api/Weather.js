@@ -1,5 +1,8 @@
 import ky from 'ky-universal'
 
+// import Time from '@/types/Time'
+// import Temperature from '@/types/Temperature'
+
 //
 
 const appid = process.env.OPENWEATHERMAP_API_KEY
@@ -11,16 +14,17 @@ const client = ky.extend({ prefixUrl })
 
 //
 
-const toCelsius = k => k - 273
+const delayed = (data) => {
+  const c = res => setTimeout(() => res(data), 2000)
 
-//
+  return new Promise(c)
+}
 
-const dataPointFrom = (item) => {
-  const time = new Date(item.dt * 1000)
+const dataPointFrom = ({ dt, main }) => {
+  const time = new Date(dt * 1000)
 
   const data = {
-    temperature: toCelsius(item.main.temp),
-    humidity: item.main.humidity
+    temperature: main.temp
   }
 
   return { time, data }
@@ -37,6 +41,7 @@ function forecast ({ city }) {
     .get(url)
     .json()
     .then(recover)
+    .then(delayed)
 }
 
 export { forecast }

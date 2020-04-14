@@ -1,6 +1,7 @@
 <template>
   <v-skeleton-loader
     :loading="isLoading"
+    transition="fade-transition"
     height="100"
     type="image"
   >

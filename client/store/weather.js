@@ -1,55 +1,63 @@
+import * as R from 'ramda'
+import * as D from 'date-fns'
+
+import RemoteData from '@/types/RemoteData'
 import { forecast } from '@/api/Weather'
 
-export const statuses = {
-  NONE: 'NONE',
-  LOADING: 'LOADING',
-  OK: 'OK' // with data
-}
+//
 
 export const state = () => {
   return {
-    status: statuses.NONE,
-    selector: null,
-    data: null
+    forecastMap: {}
   }
 }
 
 export const mutations = {
-  SET_LOADING (state, { selector }) {
-    state.status = statuses.LOADING
-    state.selector = selector
-  },
-  SET_OK (state, { selector, data }) {
-    state.status = statuses.OK
-    state.selector = selector
-    state.data = data
+  SET_FORECAST_OF (state, { city, data }) {
+    const update = R.assoc(city, data)
+    state.forecastMap = update(state.forecastMap)
   }
 }
 
 export const getters = {
-  byDate (state) {
-    return date => state.data
+  forecastBy (state, getters) {
+    const isWithin = timeRange => ({ time }) =>
+      D.isWithinInterval(time, timeRange)
+
+    return ({ city, timeRange }) => {
+      return getters
+        .forecastByCity(city)
+        .map(R.filter(isWithin(timeRange)))
+    }
   },
-  isCityOf (state) {
-    const selector = state.selector || {}
-    return city => city === selector.city
-  },
-  isLoading (state) {
-    return state.status === statuses.LOADING
+  forecastByCity (state) {
+    const propSafe = R.propOr(RemoteData.NotAsked)
+    return city => propSafe(city, state.forecastMap)
   }
 }
 
 export const actions = {
-  load ({ state, getters, commit }, selector) {
-    if (getters.isCityOf(selector.city)) {
-      return Promise.resolve()
+  fetchForecastOf ({ commit }, { city }) {
+    const { Loading, Success, Failure } = RemoteData
+
+    const apply = (data) => {
+      commit('SET_FORECAST_OF', { city, data })
+      return data
     }
 
-    const apply = data => commit('SET_OK', { selector, data })
+    apply(Loading)
 
-    commit('SET_LOADING', { selector })
+    return forecast({ city })
+      .then(R.compose(apply, Success))
+      .catch(R.compose(apply, Failure))
+  },
+  ensureForecastOf ({ getters, dispatch }, { city }) {
+    const { NotAsked } = RemoteData
 
-    return forecast(selector)
-      .then(apply)
+    const existingData = getters.forecastByCity(city)
+
+    return NotAsked.is(existingData)
+      ? dispatch('fetchForecastOf', { city })
+      : Promise.resolve(existingData)
   }
 }

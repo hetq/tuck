@@ -2,12 +2,12 @@
   <v-content>
     <v-toolbar floating flat>
       <weather-date-input v-model="form.date" />
-      <weather-city-input v-model="form.city" />
+      <weather-city-input v-model="form.city" @input="update" />
     </v-toolbar>
 
-    <v-row v-if="timeSeries">
+    <v-row>
       <v-col cols="12" md="6">
-        <v-card outlined>
+        <v-card outlined loading="isLoading">
           <v-toolbar flat dense>
             <v-toolbar-title>
               Temperature
@@ -21,7 +21,7 @@
           <v-card-text>
             <weather-chart
               :is-loading="isLoading"
-              :time-series="statsFor('temperature')"
+              :time-series="timeSeriesFor('temperature')"
             />
           </v-card-text>
         </v-card>

@@ -1,4 +1,9 @@
-import { mapState, mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
+
+import * as R from 'ramda'
+import * as D from 'date-fns'
+
+import RemoteData from '@/types/RemoteData'
 
 import WeatherDateInput from '@/components/WeatherDateInput'
 import WeatherCityInput from '@/components/WeatherCityInput'
@@ -8,52 +13,69 @@ import WeatherChart from '@/components/WeatherChart'
 
 const data = () => ({
   form: {
-    date: new Date().toISOString().substr(0, 10),
+    date: D.formatISO(new Date(), { representation: 'date' }),
     city: 'Moscow'
   }
 })
 
 const computed = {
-  statsFor () {
-    const by = key =>
-      ({ time, data }) => ({ time, value: data[key] })
+  timeRange () {
+    const date = D.parseISO(this.form.date)
 
-    return key => this.timeSeries.map(by(key))
-  },
-  timeSeries () {
-    return this.data
-  },
-  ...mapState('weather', ['data']),
-  ...mapGetters('weather', ['isLoading'])
-}
+    const start = D.startOfDay(date)
+    const end = D.endOfDay(date)
 
-const watch = {
-  form: {
-    handler () {
-      this.update()
-    },
-    deep: true
-  }
+    return { start, end }
+  },
+  forecastData () {
+    const { city } = this.form
+    const { timeRange } = this
+
+    return this.forecastBy({ city, timeRange })
+  },
+  timeSeriesFor () {
+    return (key) => {
+      const { forecastData } = this
+
+      const dataPointFrom = R.applySpec({
+        time: ({ time }) => time,
+        value: ({ data }) => R.prop(key, data)
+      })
+
+      if (RemoteData.Success.is(forecastData)) {
+        return forecastData.value.map(dataPointFrom)
+      } else {
+        return undefined
+      }
+    }
+  },
+  isLoading () {
+    return RemoteData.Loading.is(this.forecastData)
+  },
+  ...mapGetters('weather', ['forecastBy'])
 }
 
 const methods = {
-  update () {
-    console.log('upd 1', this.form.city)
-
-    this.load(this.form)
+  update (city) {
+    this.ensureForecastOf({ city })
   },
-  ...mapActions('weather', ['load'])
+  ...mapActions('weather', ['ensureForecastOf'])
+}
+
+function mounted () {
+  const { city } = this.form
+  this.ensureForecastOf({ city })
 }
 
 export default {
   name: 'DashboardPage',
   data,
-  watch,
   computed,
   methods,
   components: {
     WeatherChart,
     WeatherDateInput,
     WeatherCityInput
-  }
+  },
+  mounted
 }
