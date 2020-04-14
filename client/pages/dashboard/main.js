@@ -19,7 +19,21 @@ const data = () => ({
       end: D.endOfToday()
     },
     city: 'Moscow'
-  }
+  },
+  metrics: [
+    {
+      key: 'temperature',
+      icon: 'temperature-celsius'
+    },
+    {
+      key: 'humidity',
+      icon: 'water-percent'
+    },
+    {
+      key: 'pressure',
+      icon: 'air-filter'
+    }
+  ]
 })
 
 const computed = {
@@ -45,11 +59,8 @@ const computed = {
   },
   seriesFor () {
     return (key) => {
-      const valueOf = (x) => {
-        return R.path(['data', key], x)
-      }
-
-      return this.data.map(R.map(valueOf))
+      const valueOf = R.path(['data', key, 'value'])
+      return this.focusData.map(R.map(valueOf))
     }
   },
   ...mapGetters('weather', ['forecastByCity'])

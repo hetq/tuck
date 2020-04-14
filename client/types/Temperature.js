@@ -29,6 +29,13 @@ Temperature.prototype.toString = function () {
   })
 }
 
+Temperature.prototype.toNumber = function () {
+  return this.cata({
+    Celcius: Number,
+    Kelvin: Number
+  })
+}
+
 //
 
 export default Temperature

@@ -1,5 +1,3 @@
-import * as R from 'ramda'
-
 import RemoteData from '@/types/RemoteData'
 
 //
@@ -15,9 +13,9 @@ const computed = {
   value () {
     const { data } = this
 
-    return data.isSuccess() && !R.isEmpty(data.value)
+    return data.isSuccess()
       // ensure correct output type
-      ? R.map(Number, data.value || [])
+      ? data.value
       : null
   }
 }

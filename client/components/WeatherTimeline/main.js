@@ -12,6 +12,10 @@ const props = {
   data: {
     type: Object,
     default: () => RemoteData.Loading
+  },
+  metrics: {
+    type: Array,
+    default: () => []
   }
 }
 

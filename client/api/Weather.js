@@ -1,7 +1,8 @@
 import ky from 'ky-universal'
 
-// import Time from '@/types/Time'
-// import Temperature from '@/types/Temperature'
+import Temperature from '@/types/Temperature'
+import Humidity from '@/types/Humidity'
+import Pressure from '@/types/Pressure'
 
 //
 
@@ -18,7 +19,9 @@ const dataPointFrom = ({ dt, main }) => {
   const time = new Date(dt * 1000)
 
   const data = {
-    temperature: main.temp
+    temperature: Temperature.Kelvin(main.temp).asCelcius(),
+    humidity: Humidity.Relative(main.humidity),
+    pressure: Pressure.Pascal(main.pressure * 100)
   }
 
   return { time, data }
