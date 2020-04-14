@@ -21,6 +21,12 @@ RemoteData.prototype.map = function (transform) {
   }
 }
 
+RemoteData.prototype.getOrElse = function (defaultValue) {
+  return Success.is(this)
+    ? this.value
+    : defaultValue
+}
+
 //
 
 RemoteData.prototype.isNotAsked = function () {

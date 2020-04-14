@@ -1,7 +1,7 @@
 <template>
   <v-timeline v-if="data.isSuccess()" dense>
     <v-timeline-item
-      v-for="item in timeSeries"
+      v-for="item in data.value"
       :key="Number(item.time)"
       right
       small

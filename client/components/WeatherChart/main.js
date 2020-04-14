@@ -1,4 +1,4 @@
-import RemoteData from '@/types/RemoteData'
+import { RemoteData } from '@/types'
 
 //
 
@@ -9,19 +9,7 @@ const props = {
   }
 }
 
-const computed = {
-  value () {
-    const { data } = this
-
-    return data.isSuccess()
-      // ensure correct output type
-      ? data.value
-      : null
-  }
-}
-
 export default {
   name: 'WeatherChart',
-  props,
-  computed
+  props
 }

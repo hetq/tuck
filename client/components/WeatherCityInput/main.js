@@ -1,16 +1,7 @@
-const options = [
-  'Moscow',
-  'New York',
-  'Sydney'
-]
-
 const props = {
-  value: String
+  value: String,
+  options: Array
 }
-
-const data = () => ({
-  options
-})
 
 const methods = {
   update (value) {
@@ -22,6 +13,5 @@ const methods = {
 export default {
   name: 'WeatherCityInput',
   props,
-  data,
   methods
 }

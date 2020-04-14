@@ -1,8 +1,6 @@
 import ky from 'ky-universal'
 
-import Temperature from '@/types/Temperature'
-import Humidity from '@/types/Humidity'
-import Pressure from '@/types/Pressure'
+import { Temperature, Humidity, Pressure } from '@/types'
 
 //
 
@@ -15,7 +13,7 @@ const client = ky.extend({ prefixUrl })
 
 //
 
-const dataPointFrom = ({ dt, main }) => {
+const parseItem = ({ dt, main }) => {
   const time = new Date(dt * 1000)
 
   const data = {
@@ -32,7 +30,7 @@ const dataPointFrom = ({ dt, main }) => {
 function forecast ({ city }) {
   const url = `forecast?q=${city}&appid=${appid}`
 
-  const recover = res => res.list.map(dataPointFrom)
+  const recover = ({ list }) => list.map(parseItem)
 
   return client
     .get(url)

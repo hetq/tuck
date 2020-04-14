@@ -6,8 +6,8 @@
     type="image"
   >
     <v-sparkline
-      v-if="value"
-      :value="value"
+      v-if="data.isSuccess()"
+      :value="data.value"
       height="100"
       padding="24"
       stroke-linecap="round"

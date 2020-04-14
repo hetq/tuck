@@ -1,6 +1,6 @@
 import * as D from 'date-fns'
 
-import RemoteData from '@/types/RemoteData'
+import { RemoteData } from '@/types'
 
 //
 
@@ -20,13 +20,6 @@ const props = {
 }
 
 const computed = {
-  timeSeries () {
-    const { data } = this
-
-    return data.isSuccess()
-      ? data.value
-      : null
-  },
   labelOf () {
     return ({ time }) => D.format(time, DATE_FORMAT)
   }

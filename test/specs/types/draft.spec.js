@@ -1,8 +1,6 @@
 import test from 'ava'
 
-import Temperature from '@/types/Temperature'
-import Time from '@/types/Time'
-import RemoteData from '@/types/RemoteData'
+import { Temperature, RemoteData } from '@/types'
 
 //
 
@@ -19,38 +17,6 @@ test('Temperature', (t) => {
 
   t.log('Kelvin:', k.toString())
   t.log('Celcius:', c.toString())
-})
-
-test('Time', (t) => {
-  const { Point, Range } = Time
-
-  //
-
-  t.deepEqual(
-    Point.fromSeconds(1),
-    Point(1000)
-  )
-
-  // equals
-
-  t.true(
-    Point(10).equals(Point(10))
-  )
-
-  //
-
-  const a = Point(2)
-  const b = Point(4)
-  const c = Point(6)
-
-  const ab = Range(a, b)
-  const ac = Range(a, c)
-
-  t.true(a.isWithin(ac), 'inclusive start')
-  t.true(b.isWithin(ac))
-  t.true(c.isWithin(ac), 'inclusive end')
-
-  t.false(c.isWithin(ab))
 })
 
 test('RemoteData', (t) => {

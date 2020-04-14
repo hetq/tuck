@@ -11,6 +11,7 @@
 
         <weather-city-input
           v-model="form.city"
+          :options="locationOptions"
           @input="update"
         />
       </v-toolbar>

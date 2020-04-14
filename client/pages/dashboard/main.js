@@ -33,6 +33,11 @@ const data = () => ({
       key: 'pressure',
       icon: 'air-filter'
     }
+  ],
+  locationOptions: [
+    'Moscow',
+    'New York',
+    'Sydney'
   ]
 })
 

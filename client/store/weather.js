@@ -1,6 +1,6 @@
 import * as R from 'ramda'
 
-import RemoteData from '@/types/RemoteData'
+import { RemoteData } from '@/types'
 import { forecast } from '@/api/Weather'
 
 //

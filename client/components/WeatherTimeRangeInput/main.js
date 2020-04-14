@@ -17,38 +17,35 @@ const data = () => ({
 const computed = {
   isoPair: {
     get () {
+      // operate on `tmpInterval`
+      // exists only until completed
       if (this.tmpInterval) {
         return this.tmpInterval
       }
 
+      // fallback to outside prop
       const { start, end } = this.value
       return [start, end].map(toISO)
     },
     set (pair) {
-      if (pair.length < 2) {
-        this.tmpInterval = pair
-      } else {
-        this.update(pair)
-      }
+      // don't init update
+      // unless both ends of the range supplied
+      return pair.length < 2
+        ? this.stash(pair)
+        : this.update(pair)
     }
   },
   isoMin () {
-    const min = this.scope
+    return this.scope
       .map(R.prop('min'))
       .map(toISO)
-
-    return min.isSuccess()
-      ? min.value
-      : undefined
+      .getOrElse(undefined)
   },
   isoMax () {
-    const max = this.scope
+    return this.scope
       .map(R.prop('max'))
       .map(toISO)
-
-    return max.isSuccess()
-      ? max.value
-      : undefined
+      .getOrElse(undefined)
   },
   inputValue () {
     return this.isoPair.join(' ~ ')
@@ -56,11 +53,15 @@ const computed = {
 }
 
 const methods = {
-  update (pair) {
+  stash (interval) {
+    this.tmpInterval = interval
+  },
+  update (interval) {
     this.isActive = false
-    this.tmpInterval = null
 
-    const [a, b] = pair.map(fromISO)
+    this.stash(undefined)
+
+    const [a, b] = interval.map(fromISO)
 
     const start = D.startOfDay(a)
     const end = D.endOfDay(b)
