@@ -5,7 +5,7 @@ import * as D from 'date-fns'
 
 import RemoteData from '@/types/RemoteData'
 
-import WeatherDateInput from '@/components/WeatherDateInput'
+import WeatherTimeRangeInput from '@/components/WeatherTimeRangeInput'
 import WeatherCityInput from '@/components/WeatherCityInput'
 import WeatherChart from '@/components/WeatherChart'
 import WeatherTimeline from '@/components/WeatherTimeline'
@@ -14,25 +14,17 @@ import WeatherTimeline from '@/components/WeatherTimeline'
 
 const data = () => ({
   form: {
-    date: D.formatISO(new Date(), { representation: 'date' }),
+    timeRange: {
+      start: D.startOfToday(),
+      end: D.endOfToday()
+    },
     city: 'Moscow'
   }
 })
 
 const computed = {
-  timeRange () {
-    const date = D.parseISO(this.form.date)
-
-    const start = D.startOfDay(date)
-    const end = D.endOfDay(date)
-
-    return { start, end }
-  },
   forecastData () {
-    const { city } = this.form
-    const { timeRange } = this
-
-    return this.forecastBy({ city, timeRange })
+    return this.forecastBy(this.form)
   },
   timeSeries () {
     const { forecastData } = this
@@ -84,7 +76,7 @@ export default {
   methods,
   components: {
     WeatherChart,
-    WeatherDateInput,
+    WeatherTimeRangeInput,
     WeatherCityInput,
     WeatherTimeline
   },

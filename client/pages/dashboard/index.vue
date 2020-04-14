@@ -1,7 +1,7 @@
 <template>
   <v-content>
     <v-toolbar floating flat>
-      <weather-date-input v-model="form.date" />
+      <weather-time-range-input v-model="form.timeRange" />
       <weather-city-input v-model="form.city" @input="update" />
     </v-toolbar>
 

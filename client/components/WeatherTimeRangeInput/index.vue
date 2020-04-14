@@ -7,13 +7,19 @@
   >
     <template v-slot:activator="{ on }">
       <v-text-field
-        :value="value"
+        :value="inputValue"
+        readonly
         prepend-icon="mdi-calendar"
         v-on="on"
       />
     </template>
 
-    <v-date-picker :value="value" @input="update" />
+    <v-date-picker
+      v-model="isoPair"
+      :min="isoMin"
+      :max="isoMax"
+      range
+    />
   </v-menu>
 </template>
 
