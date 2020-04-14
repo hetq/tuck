@@ -5,7 +5,8 @@ import * as D from 'date-fns'
 
 // import RemoteData from '@/types/RemoteData'
 
-import WeatherTimeRangeInput from '@/components/WeatherTimeRangeInput'
+import TimeRangeInput from '@/components/TimeRangeInput'
+
 import WeatherCityInput from '@/components/WeatherCityInput'
 import WeatherChart from '@/components/WeatherChart'
 import WeatherTimeline from '@/components/WeatherTimeline'
@@ -90,7 +91,7 @@ export default {
   methods,
   components: {
     WeatherChart,
-    WeatherTimeRangeInput,
+    TimeRangeInput,
     WeatherCityInput,
     WeatherTimeline
   },

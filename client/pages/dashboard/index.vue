@@ -2,7 +2,7 @@
   <v-content fluid>
     <v-container>
       <v-toolbar flat>
-        <weather-time-range-input
+        <time-range-input
           v-model="form.timeRange"
           :scope="timeScope"
         />

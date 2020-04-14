@@ -27,10 +27,10 @@
   </v-menu>
 </template>
 
-<script src="./main.js"></script>
-
 <style scoped>
 .clamp {
   width: 220px
 }
 </style>
+
+<script src="./main.js"></script>
