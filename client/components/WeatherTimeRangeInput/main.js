@@ -1,3 +1,4 @@
+import * as R from 'ramda'
 import * as D from 'date-fns'
 
 const toISO = date => D.formatISO(date, { representation: 'date' })
@@ -5,14 +6,7 @@ const fromISO = D.parseISO
 
 const props = {
   value: Object,
-  min: {
-    type: Date,
-    default: D.startOfToday
-  },
-  max: {
-    type: Date,
-    default: D.endOfToday
-  }
+  scope: Object
 }
 
 const data = () => ({
@@ -39,10 +33,22 @@ const computed = {
     }
   },
   isoMin () {
-    return toISO(this.min)
+    const min = this.scope
+      .map(R.prop('min'))
+      .map(toISO)
+
+    return min.isSuccess()
+      ? min.value
+      : undefined
   },
   isoMax () {
-    return toISO(this.max)
+    const max = this.scope
+      .map(R.prop('max'))
+      .map(toISO)
+
+    return max.isSuccess()
+      ? max.value
+      : undefined
   },
   inputValue () {
     return this.isoPair.join(' ~ ')

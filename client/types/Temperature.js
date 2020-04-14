@@ -24,8 +24,8 @@ Temperature.prototype.asCelcius = function () {
 
 Temperature.prototype.toString = function () {
   return this.cata({
-    Celcius: t => `${t} °C`,
-    Kelvin: t => `${t} K`
+    Celcius: t => `${t.toFixed(2)} °C`,
+    Kelvin: t => `${t.toFixed(2)} K`
   })
 }
 

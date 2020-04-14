@@ -6,12 +6,16 @@
     min-width="290px"
   >
     <template v-slot:activator="{ on }">
-      <v-text-field
-        :value="inputValue"
-        readonly
-        prepend-icon="mdi-calendar"
-        v-on="on"
-      />
+      <div class="clamp">
+        <v-text-field
+          :value="inputValue"
+          :loading="scope.isLoading()"
+          :disabled="!scope.isSuccess()"
+          readonly
+          prepend-inner-icon="mdi-calendar"
+          v-on="on"
+        />
+      </div>
     </template>
 
     <v-date-picker
@@ -24,3 +28,9 @@
 </template>
 
 <script src="./main.js"></script>
+
+<style scoped>
+.clamp {
+  width: 220px
+}
+</style>
