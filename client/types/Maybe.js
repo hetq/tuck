@@ -38,6 +38,13 @@ Maybe.prototype.reduce = function (f, y) {
   })
 }
 
+Maybe.prototype.alt = function (that) {
+  return this.cata({
+    Nothing: () => that,
+    Just: () => this
+  })
+}
+
 //
 
 export default Maybe
