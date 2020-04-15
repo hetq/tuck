@@ -7,6 +7,9 @@ import RemoteData from '@/types/RemoteData'
 
 // helpers
 
+const { Loading, Failure } = RemoteData
+const { Nothing, Just } = Maybe
+
 const noop = () => null
 
 const maybeFromRemote = data =>
@@ -43,6 +46,15 @@ export const getters = {
   },
   payload (state, { token }) {
     return token.map(jwt.decode)
+  },
+  error (state) {
+    const { remoteToken } = state
+    return Failure.is(remoteToken)
+      ? Just(remoteToken.error)
+      : Nothing
+  },
+  isLoading (state) {
+    return Loading.is(state.remoteToken)
   }
 }
 

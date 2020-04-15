@@ -76,3 +76,8 @@ test('#alt', (t) => {
     Nothing
   )
 })
+
+test('#getOrElse', (t) => {
+  t.is(Just(1).getOrElse(2), 1)
+  t.is(Nothing.getOrElse(2), 2)
+})

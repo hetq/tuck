@@ -8,12 +8,12 @@ const paramsFor = (route) => {
 
 export default function ({ store, redirect, route }) {
   const { isAuthenticated } = store.getters
-  const isTargetAuth = route.name === 'auth'
 
-  // allow only /auth for user unknown
-  if (!isAuthenticated && !isTargetAuth) {
-    return redirect({ name: 'auth', ...paramsFor(route) })
-  }
+  const { name } = route
+  const hasOpenTarget = name === 'login'
 
-  return Promise.resolve()
+  // allow only /login for user unknown
+  return isAuthenticated || hasOpenTarget
+    ? Promise.resolve()
+    : redirect({ name: 'login', ...paramsFor(route) })
 }

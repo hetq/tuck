@@ -188,3 +188,34 @@ test('getters:payload', (t) => {
 
   t.is(res2, Nothing)
 })
+
+test('getters:error', (t) => {
+  const err = new Error('bad')
+
+  t.deepEqual(
+    getters.error({ remoteToken: Loading }),
+    Nothing
+  )
+
+  t.deepEqual(
+    getters.error({ remoteToken: Failure(err) }),
+    Just(err)
+  )
+})
+
+test('getters:isLoading', (t) => {
+  t.deepEqual(
+    getters.isLoading({ remoteToken: Nothing }),
+    false
+  )
+
+  t.deepEqual(
+    getters.isLoading({ remoteToken: Loading }),
+    true
+  )
+
+  t.deepEqual(
+    getters.isLoading({ remoteToken: Success('ok') }),
+    false
+  )
+})

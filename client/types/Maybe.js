@@ -45,6 +45,13 @@ Maybe.prototype.alt = function (that) {
   })
 }
 
+Maybe.prototype.getOrElse = function (defaultValue) {
+  return this.cata({
+    Nothing: () => defaultValue,
+    Just: value => value
+  })
+}
+
 //
 
 export default Maybe
