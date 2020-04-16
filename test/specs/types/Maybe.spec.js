@@ -54,3 +54,30 @@ test('#reduce', (t) => {
   t.deepEqual(R.reduce(f, x, Just(y)), f(x, y))
   t.deepEqual(R.reduce(f, x, Nothing), x)
 })
+
+test('#alt', (t) => {
+  t.deepEqual(
+    Just(1).alt(Just(2)),
+    Just(1)
+  )
+
+  t.deepEqual(
+    Nothing.alt(Just(2)),
+    Just(2)
+  )
+
+  t.deepEqual(
+    Just(1).alt(Nothing),
+    Just(1)
+  )
+
+  t.deepEqual(
+    Nothing,
+    Nothing
+  )
+})
+
+test('#getOrElse', (t) => {
+  t.is(Just(1).getOrElse(2), 1)
+  t.is(Nothing.getOrElse(2), 2)
+})

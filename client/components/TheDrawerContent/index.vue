@@ -1,21 +1,6 @@
 <template>
   <v-list dense>
-    <v-list-item two-line>
-      <v-list-item-avatar color="primary">
-        <v-icon>
-          mdi-account-circle
-        </v-icon>
-      </v-list-item-avatar>
-
-      <v-list-item-content>
-        <v-list-item-title>
-          {{ user.name }}
-        </v-list-item-title>
-        <v-list-item-subtitle>
-          {{ user.email }}
-        </v-list-item-subtitle>
-      </v-list-item-content>
-    </v-list-item>
+    <user-item :value="session" />
 
     <v-divider />
 
@@ -39,8 +24,10 @@
 </template>
 
 <script>
+import UserItem from '@/components/UserItem'
+
 const props = {
-  user: {
+  session: {
     type: Object,
     required: true
   },
@@ -52,6 +39,9 @@ const props = {
 
 export default {
   name: 'TheDrawerContent',
+  components: {
+    UserItem
+  },
   props
 }
 </script>

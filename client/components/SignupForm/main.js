@@ -1,4 +1,7 @@
 const rules = {
+  name: [
+    v => !!v || 'Name is required'
+  ],
   email: [
     v => !!v || 'E-mail is required',
     v => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v) || 'E-mail must be valid'
@@ -20,6 +23,7 @@ const props = {
 const data = () => ({
   isValid: false,
   formData: {
+    name: null,
     email: null,
     password: null
   },
@@ -39,7 +43,7 @@ const methods = {
 }
 
 export default {
-  name: 'UserLoginForm',
+  name: 'SignupForm',
   data,
   props,
   methods
