@@ -34,38 +34,38 @@ const dropStoredToken = () =>
 // store parts
 
 export const state = () => ({
-  remoteToken: NotAsked
+  status: NotAsked
 })
 
 export const getters = {
   token (state) {
     const storedToken = Maybe.fromOptional(getStoredToken())
 
-    return maybeFromRemote(state.remoteToken)
+    return maybeFromRemote(state.status)
       .alt(storedToken)
   },
   payload (state, { token }) {
     return token.map(jwt.decode)
   },
   error (state) {
-    const { remoteToken } = state
-    return Failure.is(remoteToken)
-      ? Just(remoteToken.error)
+    const { status } = state
+    return Failure.is(status)
+      ? Just(status.error)
       : Nothing
   },
   isLoading (state) {
-    return Loading.is(state.remoteToken)
+    return Loading.is(state.status)
   },
   isSuccess (state) {
-    return Success.is(state.remoteToken)
+    return Success.is(state.status)
   }
 }
 
 export const mutations = {
-  UPDATE (state, res) {
-    state.remoteToken = res
+  UPDATE (state, status) {
+    state.status = status
 
-    res.cata({
+    status.cata({
       NotAsked: noop,
       Loading: noop,
       Success: storeToken,
@@ -74,7 +74,7 @@ export const mutations = {
   },
   RESET (state) {
     dropStoredToken()
-    state.remoteToken = NotAsked
+    state.status = NotAsked
   }
 }
 
