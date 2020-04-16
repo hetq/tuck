@@ -2,16 +2,16 @@
   <v-content fluid>
     <v-container>
       <v-toolbar flat>
-        <weather-time-range-input
+        <time-range-input
           v-model="form.timeRange"
           :scope="timeScope"
         />
 
         <v-spacer />
 
-        <weather-city-input
-          v-model="form.city"
-          :options="locationOptions"
+        <location-input
+          v-model="form.location"
+          :options="cityNames"
           @input="update"
         />
       </v-toolbar>

@@ -1,0 +1,14 @@
+[
+  {
+    "key": "temperature",
+    "icon": "temperature-celsius"
+  },
+  {
+    "key": "humidity",
+    "icon": "water-percent"
+  },
+  {
+    "key": "pressure",
+    "icon": "air-filter"
+  }
+]

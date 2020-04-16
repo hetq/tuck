@@ -68,12 +68,9 @@ export function acquireToken ({ email, password }) {
       ? user
       : rejectUnauthorized()
 
-  const resolveToken = user =>
-    ({ token: tokenFor(user) })
-
   return getByEmail(email)
     .then(assertAuthorized)
-    .then(resolveToken)
+    .then(tokenFor)
     .then(delay)
 }
 

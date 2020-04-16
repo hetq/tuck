@@ -4,18 +4,16 @@ import sinon from 'sinon'
 
 import { mount } from '@vue/test-utils'
 
-import UserSignupForm from '@/components/UserSignupForm'
+import LoginForm from '@/components/LoginForm'
 
 // assets
 
 const FORM_VALID = {
-  name: 'Nyx',
   email: 'nyx@yahoo.com',
   password: 'pwd'
 }
 
 const FORM_INVALID = {
-  name: '',
   email: 'not email',
   password: ''
 }
@@ -27,7 +25,7 @@ test.beforeEach((t) => {
     submit: sinon.spy()
   }
 
-  const wrapper = mount(UserSignupForm, { listeners })
+  const wrapper = mount(LoginForm, { listeners })
 
   t.context = {
     listeners,
@@ -45,11 +43,6 @@ test('is a Vue instance', (t) => {
 
 test('submit on valid input', (t) => {
   const { wrapper, listeners } = t.context
-
-  wrapper
-    .find({ ref: 'name-input' })
-    .find('input')
-    .setValue(FORM_VALID.name)
 
   wrapper
     .find({ ref: 'email-input' })
@@ -78,14 +71,8 @@ test('not submit empty', (t) => {
   t.true(listeners.submit.notCalled)
 })
 
-// TODO: separate each invalid case
 test('not submit invalid', (t) => {
   const { wrapper, listeners } = t.context
-
-  wrapper
-    .find({ ref: 'name-input' })
-    .find('input')
-    .setValue(FORM_INVALID.name)
 
   wrapper
     .find({ ref: 'email-input' })
@@ -103,3 +90,5 @@ test('not submit invalid', (t) => {
 
   t.true(listeners.submit.notCalled)
 })
+
+test.todo('not submit loading')

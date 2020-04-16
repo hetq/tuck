@@ -12,41 +12,39 @@ export const state = () => {
 }
 
 export const mutations = {
-  SET_FORECAST_OF (state, { city, data }) {
-    const update = R.assoc(city, data)
+  SET_FORECAST_OF (state, { location, data }) {
+    const update = R.assoc(location, data)
     state.forecastMap = update(state.forecastMap)
   }
 }
 
 export const getters = {
-  forecastByCity (state) {
-    const propSafe = R.propOr(RemoteData.NotAsked)
-    return city => propSafe(city, state.forecastMap)
+  forecastOf (state) {
+    const getSafe = R.propOr(RemoteData.NotAsked)
+    return location => getSafe(location, state.forecastMap)
   }
 }
 
 export const actions = {
-  fetchForecastOf ({ commit }, { city }) {
+  fetchForecastOf ({ commit }, location) {
     const { Loading, Success, Failure } = RemoteData
 
     const apply = (data) => {
-      commit('SET_FORECAST_OF', { city, data })
+      commit('SET_FORECAST_OF', { location, data })
       return data
     }
 
     apply(Loading)
 
-    return forecast({ city })
+    return forecast(location)
       .then(R.compose(apply, Success))
       .catch(R.compose(apply, Failure))
   },
-  ensureForecastOf ({ getters, dispatch }, { city }) {
-    const { NotAsked } = RemoteData
+  ensureForecastOf ({ getters, dispatch }, location) {
+    const existingData = getters.forecastOf(location)
 
-    const existingData = getters.forecastByCity(city)
-
-    return NotAsked.is(existingData)
-      ? dispatch('fetchForecastOf', { city })
+    return existingData.isNotAsked()
+      ? dispatch('fetchForecastOf', location)
       : Promise.resolve(existingData)
   }
 }

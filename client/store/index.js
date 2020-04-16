@@ -1,16 +1,13 @@
-import jwt from 'jsonwebtoken'
-
-import { statuses as authStatuses } from './auth'
-
 export const getters = {
-  isAuthenticated (state) {
-    return state.auth.status === authStatuses.OK
+  isAuthenticated (state, getters) {
+    return getters['session/token']
+      .cata({
+        Nothing: () => false,
+        Just: () => true
+      })
   },
   user (state, getters) {
-    if (!getters.isAuthenticated) {
-      return null
-    }
-
-    return jwt.decode(state.auth.token)
+    return getters['session/payload']
+      .getOrElse(null)
   }
 }
