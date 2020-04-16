@@ -9,7 +9,7 @@
       dark
     >
       <the-drawer-content
-        :user="user"
+        :session="session"
         :nav-items="items"
       />
 
@@ -49,19 +49,18 @@ const noop = () => null
 
 const computed = {
   isAuthenticated () {
-    return this.user.cata({
-      Nothing: () => false,
-      Just: () => true
-    })
+    return this.session
+      .map(() => true)
+      .getOrElse(false)
   },
   ...mapGetters('session', {
-    user: 'payload'
+    session: 'payload'
   })
 }
 
 const watch = {
-  user (data) {
-    data.cata({
+  session (auth) {
+    auth.cata({
       Nothing: () => this.onLogout(),
       Just: noop
     })
