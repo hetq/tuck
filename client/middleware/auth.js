@@ -6,12 +6,12 @@ const OPEN_TARGETS = [
 //
 
 const paramsFor = (route) => {
-  const origin = route.fullPath
+  const targetUrl = route.fullPath
 
   // conceal if default
-  return origin === process.env.rootPath
+  return targetUrl === process.env.rootPath
     ? {}
-    : { query: { origin } }
+    : { query: { targetUrl } }
 }
 
 //

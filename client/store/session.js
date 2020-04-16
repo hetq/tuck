@@ -7,7 +7,7 @@ import RemoteData from '@/types/RemoteData'
 
 // helpers
 
-const { Loading, Failure } = RemoteData
+const { NotAsked, Loading, Success, Failure } = RemoteData
 const { Nothing, Just } = Maybe
 
 const noop = () => null
@@ -34,7 +34,7 @@ const dropStoredToken = () =>
 // store parts
 
 export const state = () => ({
-  remoteToken: RemoteData.NotAsked
+  remoteToken: NotAsked
 })
 
 export const getters = {
@@ -55,6 +55,9 @@ export const getters = {
   },
   isLoading (state) {
     return Loading.is(state.remoteToken)
+  },
+  isSuccess (state) {
+    return Success.is(state.remoteToken)
   }
 }
 
@@ -71,18 +74,18 @@ export const mutations = {
   },
   RESET (state) {
     dropStoredToken()
-    state.remoteToken = RemoteData.NotAsked
+    state.remoteToken = NotAsked
   }
 }
 
 export const actions = {
   login ({ commit }, formData) {
-    commit('UPDATE', RemoteData.Loading)
+    commit('UPDATE', Loading)
 
     return api
       .acquireToken(formData)
-      .then(RemoteData.Success)
-      .catch(RemoteData.Failure)
+      .then(Success)
+      .catch(Failure)
       .then(res => commit('UPDATE', res))
   },
   reset ({ commit }) {

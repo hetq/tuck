@@ -1,19 +1,17 @@
 <template>
-  <v-col cols="12" sm="8" md="4">
-    <v-card :loading="isLoading">
-      <v-card-title>
-        Signup
-      </v-card-title>
+  <v-card :loading="isLoading">
+    <v-card-title>
+      Signup
+    </v-card-title>
 
-      <v-divider />
+    <v-divider />
 
-      <v-card-text>
-        <signup-form
-          :is-loading="isLoading"
-          @submit="submit"
-        />
-      </v-card-text>
-    </v-card>
+    <v-card-text>
+      <signup-form
+        :is-loading="isLoading"
+        @submit="submit"
+      />
+    </v-card-text>
 
     <v-snackbar
       :value="errorMessage"
@@ -24,7 +22,7 @@
         <v-icon>mdi-close</v-icon>
       </v-btn>
     </v-snackbar>
-  </v-col>
+  </v-card>
 </template>
 
 <script src="./main.js"></script>
