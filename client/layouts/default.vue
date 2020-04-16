@@ -1,17 +1,32 @@
 <template>
   <v-app>
     <v-navigation-drawer
-      v-if="isAuthenticated"
       v-model="hasOpenDrawer"
       clipped
       fixed
       app
       dark
     >
-      <the-drawer-content
-        :session="session"
-        :nav-items="items"
-      />
+      <v-list dense>
+        <user-item :value="session" />
+
+        <v-divider />
+
+        <v-list-item
+          v-for="(item, i) in navItems"
+          :key="i"
+          :to="item.to"
+          router
+          exact
+        >
+          <v-list-item-action>
+            <v-icon> {{ item.icon }} </v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title v-text="item.title" />
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
 
       <template v-slot:append>
         <div class="pa-2">
@@ -39,7 +54,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 
-import TheDrawerContent from '@/components/TheDrawerContent'
+import UserItem from '@/components/UserItem'
 
 //
 
@@ -48,11 +63,6 @@ const noop = () => null
 //
 
 const computed = {
-  isAuthenticated () {
-    return this.session
-      .map(() => true)
-      .getOrElse(false)
-  },
   ...mapGetters('session', {
     session: 'payload'
   })
@@ -81,7 +91,7 @@ const methods = {
 
 const data = () => ({
   hasOpenDrawer: false,
-  items: [
+  navItems: [
     {
       icon: 'mdi-home',
       title: 'Welcome',
@@ -99,7 +109,7 @@ const data = () => ({
 
 export default {
   components: {
-    TheDrawerContent
+    UserItem
   },
   data,
   computed,

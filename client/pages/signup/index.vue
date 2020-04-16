@@ -1,7 +1,11 @@
 <template>
   <v-card :loading="isLoading">
     <v-card-title>
-      Signup
+      <h3> Signup </h3>
+      <v-spacer />
+      <v-btn text :to="{ name: 'login' }">
+        Login
+      </v-btn>
     </v-card-title>
 
     <v-divider />

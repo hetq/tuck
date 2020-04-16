@@ -41,8 +41,7 @@ export const getters = {
   token (state) {
     const storedToken = Maybe.fromOptional(getStoredToken())
 
-    return maybeFromRemote(state.status)
-      .alt(storedToken)
+    return maybeFromRemote(state.status).alt(storedToken)
   },
   payload (state, { token }) {
     return token.map(jwt.decode)
@@ -63,17 +62,20 @@ export const getters = {
 
 export const mutations = {
   UPDATE (state, status) {
-    state.status = status
-
     status.cata({
       NotAsked: noop,
       Loading: noop,
       Success: storeToken,
       Failure: noop
     })
+
+    state.status = status
   },
   RESET (state) {
+    state.status = Loading
+
     dropStoredToken()
+
     state.status = NotAsked
   }
 }
