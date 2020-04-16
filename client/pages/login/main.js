@@ -8,10 +8,9 @@ import LoginForm from '@/components/LoginForm'
 
 const computed = {
   hasError () {
-    return this.error.cata({
-      Nothing: () => false,
-      Just: () => true
-    })
+    return this.error
+      .map(() => true)
+      .getOrElse(false)
   },
   errorMessage () {
     return this.error

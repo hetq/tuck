@@ -5,24 +5,23 @@ const OPEN_TARGETS = [
 
 //
 
-const paramsFor = (route) => {
-  const targetUrl = route.fullPath
-
-  // conceal if default
-  return targetUrl === process.env.rootPath
-    ? {}
-    : { query: { targetUrl } }
-}
-
-//
-
 export default function ({ store, redirect, route }) {
-  const { isAuthenticated } = store.getters
+  const session = store.getters['session/payload']
+
+  const hasSession = session
+    .map(() => true)
+    .getOrElse(false)
 
   const hasOpenTarget = OPEN_TARGETS.includes(route.name)
 
+  if (hasSession && hasOpenTarget) {
+    redirect({ name: 'dashboard' })
+  }
+
+  if (!hasSession && !hasOpenTarget) {
+    redirect({ name: 'login' })
+  }
+
   // branch for user unknown
-  return isAuthenticated || hasOpenTarget
-    ? Promise.resolve()
-    : redirect({ name: 'login', ...paramsFor(route) })
+  return Promise.resolve()
 }

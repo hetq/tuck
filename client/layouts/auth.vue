@@ -17,22 +17,28 @@ import { mapGetters } from 'vuex'
 
 //
 
+const noop = () => null
+
+//
+
 const computed = {
-  ...mapGetters(['isAuthenticated', 'user'])
+  ...mapGetters({
+    session: 'session/payload'
+  })
 }
 
 const watch = {
-  isAuthenticated (is) {
-    if (is) {
-      this.onLogin()
-    }
+  session (auth) {
+    auth.cata({
+      Nothing: noop,
+      Just: () => this.onLogin()
+    })
   }
 }
 
 const methods = {
   onLogin () {
-    const url = this.$route.query.targetUrl || process.env.rootUrl
-    this.$router.push(url)
+    this.$router.push({ name: 'dashboard' })
   }
 }
 

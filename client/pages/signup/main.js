@@ -44,11 +44,6 @@ export default {
   components: {
     SignupForm
   },
-  // fetch ({ store, redirect, route }) {
-  //   if (store.getters.isAuthenticated) {
-  //     redirect(nextUrlFor(route))
-  //   }
-  // },
   computed,
   watch,
   methods
