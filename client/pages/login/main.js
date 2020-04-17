@@ -24,8 +24,11 @@ const methods = {
   ...mapActions('session', ['login', 'reset'])
 }
 
-function resetStatus () {
-  this.reset()
+function resetError () {
+  this.error.cata({
+    Nothing: () => null,
+    Just: () => this.reset()
+  })
 }
 
 //
@@ -38,6 +41,6 @@ export default {
   },
   computed,
   methods,
-  mounted: resetStatus,
-  beforeDestroy: resetStatus
+  mounted: resetError,
+  beforeDestroy: resetError
 }
