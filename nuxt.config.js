@@ -1,3 +1,7 @@
+const ROUTER_BASE = process.env.DEPLOY_ENV === 'GH_PAGES'
+  ? '/tuck/'
+  : '/'
+
 module.exports = {
   mode: 'spa',
   /*
@@ -84,6 +88,7 @@ module.exports = {
   **
   */
   router: {
+    base: ROUTER_BASE,
     middleware: ['auth']
   }
 }
