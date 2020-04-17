@@ -1,0 +1,25 @@
+name: Stage
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js 12.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+    - run: npm ci
+    - run: npm run build:gh
+    - run: npm run deploy:gh
+      env:
+        CI: true
+        DEPLOY_ENV: GH_PAGES
+        OPENWEATHERMAP_API_KEY: 8655ad69eb8607cc8cd9fb9dab365aa5
+
