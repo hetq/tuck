@@ -18,10 +18,8 @@ test.before(async () => {
 }, 30000)
 
 // Example of testing only generated html
-test('Route / exits and render HTML', async (t) => {
-  const { html } = await nuxt.renderRoute('/', {})
-  t.true(html.includes('Documentation'))
-})
+test.todo('Auth')
+test.todo('Dashboard')
 
 // Close server and ask nuxt to stop listening to file changes
 test.after('Closing server and nuxt.js', (t) => {

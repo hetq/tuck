@@ -108,7 +108,7 @@ test('mutations:UPDATE', (t) => {
   apply(state, Loading)
 
   t.deepEqual(
-    state.remoteToken,
+    state.status,
     Loading
   )
 
@@ -119,7 +119,7 @@ test('mutations:UPDATE', (t) => {
   apply(state, Success('xxx'))
 
   t.deepEqual(
-    state.remoteToken,
+    state.status,
     Success('xxx')
   )
 
@@ -128,7 +128,7 @@ test('mutations:UPDATE', (t) => {
 
 test('mutations:RESET', (t) => {
   const state = {
-    remoteToken: Success('xxx')
+    status: Success('xxx')
   }
 
   localStorage.setItem('token', 'xxx')
@@ -138,7 +138,7 @@ test('mutations:RESET', (t) => {
   mutations.RESET(state)
 
   t.deepEqual(
-    state.remoteToken,
+    state.status,
     NotAsked
   )
 
@@ -146,19 +146,19 @@ test('mutations:RESET', (t) => {
 })
 
 test('getters:token - Success', (t) => {
-  const remoteToken = Success('xxx')
+  const status = Success('xxx')
 
   t.deepEqual(
-    getters.token({ remoteToken }),
+    getters.token({ status }),
     Maybe.of('xxx')
   )
 })
 
 test('getters:token - Loading', (t) => {
-  const remoteToken = Loading
+  const status = Loading
 
   t.deepEqual(
-    getters.token({ remoteToken }),
+    getters.token({ status }),
     Maybe.Nothing
   )
 })
@@ -166,10 +166,10 @@ test('getters:token - Loading', (t) => {
 test('getters:token - NotAsked + localStorage', (t) => {
   localStorage.setItem('token', 'xxx')
 
-  const remoteToken = NotAsked
+  const status = NotAsked
 
   t.deepEqual(
-    getters.token({ remoteToken }),
+    getters.token({ status }),
     Maybe.of('xxx')
   )
 })
@@ -193,29 +193,29 @@ test('getters:error', (t) => {
   const err = new Error('bad')
 
   t.deepEqual(
-    getters.error({ remoteToken: Loading }),
+    getters.error({ status: Loading }),
     Nothing
   )
 
   t.deepEqual(
-    getters.error({ remoteToken: Failure(err) }),
+    getters.error({ status: Failure(err) }),
     Just(err)
   )
 })
 
 test('getters:isLoading', (t) => {
   t.deepEqual(
-    getters.isLoading({ remoteToken: Nothing }),
+    getters.isLoading({ status: Nothing }),
     false
   )
 
   t.deepEqual(
-    getters.isLoading({ remoteToken: Loading }),
+    getters.isLoading({ status: Loading }),
     true
   )
 
   t.deepEqual(
-    getters.isLoading({ remoteToken: Success('ok') }),
+    getters.isLoading({ status: Success('ok') }),
     false
   )
 })

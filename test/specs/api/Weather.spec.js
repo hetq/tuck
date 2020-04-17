@@ -5,7 +5,7 @@ import { forecast } from '@/api/Weather'
 // hooks
 
 test('forecast', async (t) => {
-  const timeSeries = await forecast({ city: 'Moscow' })
+  const timeSeries = await forecast('Moscow')
 
   timeSeries.forEach(assertDataPoint)
 
