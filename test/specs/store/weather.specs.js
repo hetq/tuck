@@ -34,16 +34,16 @@ test('mutations.SET_FORECAST_OF', (t) => {
     forecastMap: {}
   }
 
-  const city = 'Moscow'
+  const location = 'Moscow'
 
   const callWith = data =>
-    () => mutations.SET_FORECAST_OF(state, { city, data })
+    () => mutations.SET_FORECAST_OF(state, { location, data })
 
   t.notThrows(callWith(RemoteData.Loading))
-  t.deepEqual(state.forecastMap[city], RemoteData.Loading)
+  t.deepEqual(state.forecastMap[location], RemoteData.Loading)
 })
 
-test('getters.forecastByCity', (t) => {
+test('getters.forecastOf', (t) => {
   const forecastMap = {
     a: RemoteData.NotAsked,
     b: RemoteData.Loading,
@@ -52,7 +52,7 @@ test('getters.forecastByCity', (t) => {
   }
 
   // shortcut
-  const of = getters.forecastByCity({ forecastMap })
+  const of = getters.forecastOf({ forecastMap })
 
   t.is(typeof of, 'function')
 
@@ -76,12 +76,12 @@ test('actions.ensureForecastOf (NotAsked)', async (t) => {
 
   const ctx = {
     getters: {
-      forecastByCity: getters.forecastByCity({ forecastMap })
+      forecastOf: getters.forecastOf({ forecastMap })
     },
     dispatch
   }
 
-  const ensure = city => actions.ensureForecastOf(ctx, { city })
+  const ensure = location => actions.ensureForecastOf(ctx, location)
 
   //
 
@@ -93,7 +93,7 @@ test('actions.ensureForecastOf (NotAsked)', async (t) => {
 
   const targets = dispatch
     .getCalls()
-    .map(({ lastArg: { city } }) => city)
+    .map(({ lastArg: location }) => location)
 
   t.deepEqual(targets, ['a', 'x'], 'NotAsked, undefined')
 })
