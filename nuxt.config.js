@@ -1,3 +1,7 @@
+const env = {
+  OPENWEATHERMAP_API_KEY: process.env.OPENWEATHERMAP_API_KEY
+}
+
 const ROUTER_BASE = process.env.DEPLOY_ENV === 'GH_PAGES'
   ? '/tuck/'
   : '/'
@@ -80,13 +84,10 @@ module.exports = {
     }
   },
   srcDir: 'client/',
-  env: {
-    rootPath: '/',
-    OPENWEATHERMAP_API_KEY: process.env.OPENWEATHERMAP_API_KEY
-  },
   /*
   **
   */
+  env,
   router: {
     base: ROUTER_BASE,
     middleware: ['auth']

@@ -4,8 +4,12 @@ import { Temperature, Humidity, Pressure, Speed } from '@/types'
 
 //
 
+const HOST = 'https://api.openweathermap.org/data/2.5/'
+
+//
+
 const appid = process.env.OPENWEATHERMAP_API_KEY
-const prefixUrl = process.env.OPENWEATHERMAP_API_HOST || 'http://api.openweathermap.org/data/2.5/'
+const prefixUrl = HOST
 
 //
 
