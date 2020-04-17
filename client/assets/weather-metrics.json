@@ -8,7 +8,11 @@
     "icon": "water-percent"
   },
   {
+    "key": "wind",
+    "icon": "wind-turbine"
+  },
+  {
     "key": "pressure",
-    "icon": "air-filter"
+    "icon": "elevator-down"
   }
 ]

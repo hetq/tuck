@@ -16,16 +16,15 @@
         />
       </v-toolbar>
 
-      <v-divider />
-
-      <v-row>
-        <v-col cols="12" sm="6" md="5" lg="4">
-          <v-card
-            v-for="metric in metrics"
-            :key="metric.key"
-            class="my-5"
-            outlined
-          >
+      <v-row my-5 py-5>
+        <v-col
+          v-for="metric in metrics"
+          :key="metric.key"
+          cols="12"
+          sm="6"
+          md="3"
+        >
+          <v-card outlined>
             <v-card-actions>
               <v-icon> mdi-{{ metric.icon }} </v-icon>
               <v-spacer />
@@ -39,14 +38,14 @@
             </v-card-text>
           </v-card>
         </v-col>
-
-        <v-col cols="12" sm="6" md="7" lg="8">
-          <weather-timeline
-            :data="focusData"
-            :metrics="metrics"
-          />
-        </v-col>
       </v-row>
+
+      <v-divider />
+
+      <weather-timeline
+        :data="focusData"
+        :metrics="metrics"
+      />
     </v-container>
   </v-content>
 </template>

@@ -1,16 +1,25 @@
 <template>
-  <v-timeline v-if="data.isSuccess()" dense>
+  <v-timeline v-if="data.isSuccess()">
     <v-timeline-item
       v-for="item in data.value"
       :key="Number(item.time)"
       right
       small
     >
-      <v-card outlined dense>
-        <v-card-text class="text-center">
-          <em> {{ labelOf(item) }} </em>
-        </v-card-text>
+      <v-chip
+        slot="opposite"
+        color="primary"
+        outlined
+      >
+        <v-icon left small>
+          mdi-clock
+        </v-icon>
+        <time :datetime="item.time.toISOString()">
+          {{ labelOf(item) }}
+        </time>
+      </v-chip>
 
+      <v-card outlined dense>
         <v-row>
           <v-col
             v-for="metric in metrics"
