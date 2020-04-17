@@ -1,8 +1,24 @@
 # tuck
 
+## :construction:
+
 > Demo auth. and viz.
 
-## Build Setup
+## Usage
+
+### Prerequisities
+
+To enable weather forecast provide OpenWeatherMap API key as follows before
+compilation or running the server:
+
+```sh
+export OPENWEATHERMAP_API_KEY=xxx
+```
+
+Consult (OpenWeatherMap Guide)[https://openweathermap.org/appid] to obtain your
+API key (*appid*).
+
+### Build Setup
 
 ```bash
 # install dependencies
@@ -20,3 +36,7 @@ $ npm run generate
 ```
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+
+## Development
+
+Consider checking [Contribution guide](/CONTRIBUTING.md)
