@@ -21,5 +21,4 @@ jobs:
       env:
         CI: true
         DEPLOY_ENV: GH_PAGES
-        OPENWEATHERMAP_API_KEY: 8655ad69eb8607cc8cd9fb9dab365aa5
-
+        OPENWEATHERMAP_API_KEY: ${{ secrets.OPENWEATHERMAP_API_KEY }}
