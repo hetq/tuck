@@ -6,13 +6,16 @@
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
-    "build": "nuxt build",
     "start": "cross-env NODE_ENV=production node server/index.js",
+    "build": "nuxt build",
+    "build:gh": "DEPLOY_ENV=GH_PAGES nuxt build --spa",
     "generate": "nuxt generate",
+    "generate:gh": "DEPLOY_ENV=GH_PAGES nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "test": "ava",
     "test:unit": "cross-env TEST=unit ava ./test/specs/**/*",
-    "test:e2e": "cross-env TEST=e2e ava ./test/e2e/**/*"
+    "test:e2e": "cross-env TEST=e2e ava ./test/e2e/**/*",
+    "deploy:gh": "push-dir --dir=dist --branch=gh-pages --cleanup"
   },
   "lint-staged": {
     "*.{js,vue}": "npm run lint"
@@ -56,6 +59,7 @@
     "lint-staged": "^10.0.0",
     "mock-local-storage": "^1.1.11",
     "nodemon": "^1.18.9",
+    "push-dir": "^0.4.1",
     "require-extension-hooks": "^0.3.3",
     "require-extension-hooks-babel": "^1.0.0",
     "require-extension-hooks-vue": "^2.0.0",

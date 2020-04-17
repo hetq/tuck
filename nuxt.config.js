@@ -1,3 +1,7 @@
+const ROUTER_BASE = process.env.DEPLOY_ENV === 'GH_PAGES'
+  ? '/tuck/'
+  : '/'
+
 module.exports = {
   mode: 'spa',
   /*
@@ -49,7 +53,7 @@ module.exports = {
   ** https://github.com/nuxt-community/vuetify-module
   */
   vuetify: {
-    customVariables: ['~/client/assets/variables.scss'],
+    // customVariables: ['~/client/assets/variables.scss'],
     theme: {
       dark: false,
       themes: {
@@ -84,6 +88,7 @@ module.exports = {
   **
   */
   router: {
+    base: ROUTER_BASE,
     middleware: ['auth']
   }
 }
