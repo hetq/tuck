@@ -11,5 +11,5 @@ test('Atmosphere', (t) => {
 })
 
 test.todo('#toAtmosphere')
-test.todo('#toNumber')
 test.todo('#toString')
+test.todo('#toNumer')
