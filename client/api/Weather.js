@@ -19,7 +19,7 @@ const parseItem = ({ dt, main }) => {
   const data = {
     temperature: Temperature.Kelvin(main.temp).asCelcius(),
     humidity: Humidity.Relative(main.humidity),
-    pressure: Pressure.Pascal(main.pressure * 100)
+    pressure: Pressure.Pascal(main.pressure * 100).toAtmosphere()
   }
 
   return { time, data }
