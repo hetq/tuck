@@ -21,7 +21,8 @@
           v-for="metric in metrics"
           :key="metric.key"
           cols="12"
-          md="4"
+          sm="6"
+          md="3"
         >
           <v-card outlined>
             <v-card-actions>

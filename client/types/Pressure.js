@@ -31,7 +31,7 @@ Pressure.prototype.toAtmosphere = function () {
 Pressure.prototype.toString = function () {
   return this.cata({
     Pascal: p => `${p} Pa`,
-    Atmosphere: atm => `${atm.toFixed(4)} Atm`
+    Atmosphere: atm => `${atm.toFixed(3)} Atm`
   })
 }
 

@@ -6,9 +6,19 @@
       right
       small
     >
-      <time slot="opposite" :datetime="item.time.toISOString()">
-        {{ labelOf(item) }}
-      </time>
+      <v-chip
+        slot="opposite"
+        color="primary"
+        outlined
+      >
+        <v-icon left small>
+          mdi-clock
+        </v-icon>
+        <time :datetime="item.time.toISOString()">
+          {{ labelOf(item) }}
+        </time>
+      </v-chip>
+
       <v-card outlined dense>
         <v-row>
           <v-col
