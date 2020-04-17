@@ -24,6 +24,10 @@ const methods = {
   ...mapActions('session', ['login', 'reset'])
 }
 
+function resetStatus () {
+  this.reset()
+}
+
 //
 
 export default {
@@ -33,5 +37,7 @@ export default {
     LoginForm
   },
   computed,
-  methods
+  methods,
+  mounted: resetStatus,
+  beforeDestroy: resetStatus
 }

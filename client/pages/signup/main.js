@@ -36,15 +36,21 @@ const methods = {
   ...mapActions('registration', ['submit', 'reset'])
 }
 
+function resetStatus () {
+  this.reset()
+}
+
 //
 
 export default {
-  name: 'LoginPage',
+  name: 'SignupPage',
   layout: 'auth',
   components: {
     SignupForm
   },
   computed,
   watch,
-  methods
+  methods,
+  mounted: resetStatus,
+  beforeDestroy: resetStatus
 }
