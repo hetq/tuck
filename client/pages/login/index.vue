@@ -1,21 +1,32 @@
 <template>
-  <v-card :loading="isLoading">
-    <v-card-title>
-      <h3> Login </h3>
-      <v-spacer />
-      <v-btn text :to="{ name: 'signup' }">
-        Signup
-      </v-btn>
-    </v-card-title>
+  <v-content>
+    <v-card :loading="isLoading" ma-4>
+      <v-card-title>
+        <h3 class="headline">
+          Login
+        </h3>
+      </v-card-title>
 
-    <v-divider />
+      <v-divider />
 
-    <v-card-text>
-      <login-form
-        :is-loading="isLoading"
-        @submit="login"
-      />
-    </v-card-text>
+      <v-card-text>
+        <login-form
+          :is-loading="isLoading"
+          @submit="login"
+        />
+      </v-card-text>
+
+      <v-divider />
+
+      <v-card-actions class="justify-center py-3">
+        <span class="text--secondary px-2">
+          Don't have an account?
+        </span>
+        <v-btn text :to="{ name: 'signup' }">
+          Signup
+        </v-btn>
+      </v-card-actions>
+    </v-card>
 
     <v-snackbar :value="hasError" color="error">
       <strong> {{ errorMessage }} </strong>
@@ -23,7 +34,7 @@
         <v-icon>mdi-close</v-icon>
       </v-btn>
     </v-snackbar>
-  </v-card>
+  </v-content>
 </template>
 
 <script src="./main.js"></script>
