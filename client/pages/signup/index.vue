@@ -29,7 +29,7 @@
     </v-card>
 
     <v-snackbar
-      :value="errorMessage"
+      :value="hasError"
       color="error"
     >
       <strong> {{ errorMessage }} </strong>
