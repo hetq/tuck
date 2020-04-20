@@ -9,6 +9,11 @@ const noop = () => null
 //
 
 const computed = {
+  hasError () {
+    return this.error
+      .map(() => true)
+      .getOrElse(false)
+  },
   errorMessage () {
     return this.error
       .map(err => err.message)

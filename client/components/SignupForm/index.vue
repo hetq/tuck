@@ -38,12 +38,12 @@
     />
 
     <v-layout justify-space-between mt-4>
-      <v-spacer />
       <v-btn
         type="submit"
         color="primary"
         :disabled="!isValid || isLoading"
         :loading="isLoading"
+        block
       >
         Signup
       </v-btn>

@@ -5,13 +5,13 @@ import RemoteData from '@/types/RemoteData'
 
 // helpers
 
-const { Loading, Failure } = RemoteData
+const { NotAsked, Loading, Failure, Success } = RemoteData
 const { Nothing, Just } = Maybe
 
 // store parts
 
 export const state = () => ({
-  status: RemoteData.NotAsked
+  status: NotAsked
 })
 
 export const getters = {
@@ -24,6 +24,9 @@ export const getters = {
   },
   isLoading (state) {
     return Loading.is(state.status)
+  },
+  isSuccess (state) {
+    return Success.is(state.status)
   }
 }
 
@@ -32,18 +35,18 @@ export const mutations = {
     state.status = res
   },
   RESET (state) {
-    state.status = RemoteData.NotAsked
+    state.status = NotAsked
   }
 }
 
 export const actions = {
   submit ({ commit }, formData) {
-    commit('UPDATE', RemoteData.Loading)
+    commit('UPDATE', Loading)
 
     return api
       .createUser(formData)
-      .then(RemoteData.Success)
-      .catch(RemoteData.Failure)
+      .then(Success)
+      .catch(Failure)
       .then(res => commit('UPDATE', res))
   },
   reset ({ commit }) {

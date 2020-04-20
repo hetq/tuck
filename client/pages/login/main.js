@@ -17,17 +17,24 @@ const computed = {
       .map(err => err.message)
       .getOrElse(null)
   },
-  ...mapGetters('session', ['error', 'isLoading'])
+  ...mapGetters({
+    error: 'session/error',
+    isLoading: 'session/isLoading',
+    isAfterSignupSuccess: 'registration/isSuccess'
+  })
 }
 
 const methods = {
-  ...mapActions('session', ['login', 'reset'])
-}
-
-function resetError () {
-  this.error.cata({
-    Nothing: () => null,
-    Just: () => this.reset()
+  resetError () {
+    this.error.cata({
+      Nothing: () => null,
+      Just: () => this.reset()
+    })
+  },
+  ...mapActions({
+    login: 'session/login',
+    reset: 'session/reset',
+    resetSignupStatus: 'registration/reset'
   })
 }
 
@@ -41,6 +48,11 @@ export default {
   },
   computed,
   methods,
-  mounted: resetError,
-  beforeDestroy: resetError
+  mounted () {
+    this.resetError()
+  },
+  beforeDestroy () {
+    this.resetError()
+    this.resetSignupStatus()
+  }
 }

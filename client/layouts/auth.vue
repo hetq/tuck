@@ -1,9 +1,9 @@
 <template>
   <v-app id="auth">
     <v-content>
-      <v-container class="fill-height" fluid>
+      <v-container class="fill-height">
         <v-row align="center" justify="center">
-          <v-col cols="12" sm="8" md="4">
+          <v-col cols="12" sm="8" md="5" lg="4" xl="3">
             <nuxt />
           </v-col>
         </v-row>
